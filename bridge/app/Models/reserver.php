@@ -5,12 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class CategoryAssociation extends Model
+class reserver extends Model
 {
     use HasFactory;
     protected $fillable=[
         'id',
-        'intitule',
-        'icon'
+        'id_don',
+        'id_donateur'
     ];
+    protected $dates = ['created_at','updated_at'];
 }

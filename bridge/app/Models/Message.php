@@ -8,4 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Message extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'id',
+        'id_donateur',
+        'id_receiver',
+        'contenu',
+        'vu',
+    ];
+    protected $dates = ['created_at','updated_at'];
 }

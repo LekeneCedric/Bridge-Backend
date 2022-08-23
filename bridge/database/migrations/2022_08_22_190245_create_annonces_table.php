@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 class CreateAnnoncesTable extends Migration
 {
@@ -15,11 +15,11 @@ class CreateAnnoncesTable extends Migration
     {
         Schema::create('annonces', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->foreignId('association_id')->constrained('associations');
             $table->string('title');
             $table->string('intitule');
             $table->string('category');
             $table->integer('nbvue');
-            $table->integer('id_association');
             $table->string('images')->nullable();
             $table->timestamps();
         });

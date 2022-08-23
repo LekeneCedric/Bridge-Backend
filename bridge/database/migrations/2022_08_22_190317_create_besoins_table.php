@@ -15,7 +15,7 @@ class CreateBesoinsTable extends Migration
     {
         Schema::create('besoins', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('id_association');
+            $table->foreignId('association_id')->constrained('associations');
             $table->string('contenu');
             $table->string('category');
             $table->integer('resolu')->default(0);

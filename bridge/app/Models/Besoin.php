@@ -8,4 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Besoin extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'id',
+        'id_association',
+        'contenu',
+        'category',
+        'resolu',
+        'images'
+    ];
+    protected $dates = ['created_at', 'updated_at'];
 }

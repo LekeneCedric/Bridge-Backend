@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class CategoryDemande extends Model
 {
     use HasFactory;
+    protected $fillable=[
+        'id',
+        'intitule',
+        'icon'
+    ];
 }

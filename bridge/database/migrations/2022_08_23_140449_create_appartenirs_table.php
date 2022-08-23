@@ -3,8 +3,8 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-
-class CreateMessagesTable extends Migration
+use Illuminate\Support\Facades\DB;
+class CreateAppartenirsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,13 @@ class CreateMessagesTable extends Migration
      */
     public function up()
     {
-        Schema::create('messages', function (Blueprint $table) {
+        Schema::create('appartenirs', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->foreignId('association_id')->constrained('associations');
             $table->foreignId('donateur_id')->constrained('donateurs');
-            $table->integer('receiver_id');
-            $table->text('contenu');
-            $table->integer('vu')->default(0);
             $table->timestamps();
         });
+       
     }
 
     /**
@@ -30,6 +29,6 @@ class CreateMessagesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('messages');
+        Schema::dropIfExists('appartenirs');
     }
 }

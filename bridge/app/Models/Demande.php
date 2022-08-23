@@ -8,4 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Demande extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'id',
+        'id_donateur',
+        'id_user',
+        'contenu',
+        'category',
+        'resolu'
+    ];
+    protected $dates = ['created_at', 'updated_at'];
 }

@@ -5,22 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Donateur extends Model
+class appartenir extends Model
 {
     use HasFactory;
     protected $fillable = [
         'id',
-        'name',
-        'surname',
-        'email',
-        'age',
-        'sexe',
-        'contact',
-        'pays',
-        'ville',
-        'imageProfil',
-        'password',
-        'vpassword'
+        'id_association',
+        'id_donateur'
     ];
     protected $dates = ['created_at','updated_at'];
 }
