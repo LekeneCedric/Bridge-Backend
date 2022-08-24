@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Mouvement;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Validator;
 class mouvementController extends Controller
 {
     /**
@@ -13,7 +14,7 @@ class mouvementController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json(Mouvement::all(),200);
     }
 
     /**
@@ -34,7 +35,31 @@ class mouvementController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator=Validator::make($request->all(),[
+            'association_id'=>'required|int',
+            'category'=>'required|string',
+            'intitule'=>'required|string',
+            'date_rencontre'=>'required',
+            'heure_debut'=>'required',
+            'heure_fin'=>'required',
+            'latitude'=>'required',
+            'longitude'=>'required',
+            'description'=>'required',
+        ]);
+
+        if($validator->fails()){
+            return response()->json($validator->errors(), 400);
+        }
+        $Mouvement = Mouvement::create(
+            array_merge($validator->validated()             
+        ));
+
+        return response()->json(
+            [
+                'Mouvement'=>'Mouvement created successfully',
+                'mouvement'=>$Mouvement
+            ],200
+        );
     }
 
     /**

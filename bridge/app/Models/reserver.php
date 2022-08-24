@@ -10,8 +10,8 @@ class reserver extends Model
     use HasFactory;
     protected $fillable=[
         'id',
-        'id_don',
-        'id_donateur'
+        'don_id',
+        'donateur_id'
     ];
     protected $dates = ['created_at','updated_at'];
 }

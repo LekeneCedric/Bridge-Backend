@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Besoin;
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\Validator;
 class besoinController extends Controller
 {
     /**
@@ -13,7 +15,7 @@ class besoinController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json(Besoin::all(),200);
     }
 
     /**
@@ -34,7 +36,26 @@ class besoinController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator=Validator::make($request->all(),[
+            'donateur_id'=>'required|int',
+            'association_id'=>'required|int',
+            'contenu'=>'required|string',
+            'category'=>'required|string',
+        ]);
+
+        if($validator->fails()){
+            return response()->json($validator->errors(), 400);
+        }
+        $Besoin = Besoin::create(
+            array_merge($validator->validated()             
+        ));
+
+        return response()->json(
+            [
+                'Besoin'=>'Besoin created successfully',
+                'besoin'=>$Besoin
+            ],200
+        );
     }
 
     /**
@@ -45,7 +66,13 @@ class besoinController extends Controller
      */
     public function show($id)
     {
-        //
+        $Besoin = Besoin::find($id);
+        if(is_null($Besoin)){
+            return response()->json([
+                'Besoin'=>'not Found!'
+            ],200);
+        }
+        return response()->json($Besoin,200);
     }
 
     /**
@@ -68,7 +95,17 @@ class besoinController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $Besoin = Besoin::find($id);
+        if(is_null($Besoin)){
+            return response()->json([
+                'Besoin'=>'Not Found!'
+            ],200);
+        }
+        $Besoin->update($request->all());
+        return response()->json([
+            'Besoin'=>'modification successfully',
+            'Besoin'=>$Besoin
+        ],200);
     }
 
     /**
@@ -79,6 +116,11 @@ class besoinController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $Besoin = Besoin::find($id);
+        Besoin::destroy($id);
+        return response()->json([
+            'Besoin'=>'Besoin deleted successfully',
+            'Besoin'=>$Besoin
+        ], 202);
     }
 }

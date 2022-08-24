@@ -11,9 +11,9 @@ class Recu extends Model
     protected $fillable = [
         'id',
         'contenu',
-        'id_don',
-        'id_association',
-        'id_donateur'
+        'don_id',
+        'association_id',
+        'donateur_id'
     ];
     protected $dates = ['created_at','updated_at'];
 }

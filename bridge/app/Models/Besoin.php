@@ -10,7 +10,7 @@ class Besoin extends Model
     use HasFactory;
     protected $fillable = [
         'id',
-        'id_association',
+        'association_id',
         'contenu',
         'category',
         'resolu',

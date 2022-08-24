@@ -10,10 +10,12 @@ class Mouvement extends Model
     use HasFactory;
     protected $fillable = [
         'id',
-        'id_association',
+        'association_id',
         'category',
         'intitule',
         'date_rencontre',
+        'heure_debut',
+        'heure_fin',
         'latitude',
         'longitude',
         'description',

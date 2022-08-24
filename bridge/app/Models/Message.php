@@ -10,8 +10,8 @@ class Message extends Model
     use HasFactory;
     protected $fillable = [
         'id',
-        'id_donateur',
-        'id_receiver',
+        'donateur_id',
+        'receiver_id',
         'contenu',
         'vu',
     ];

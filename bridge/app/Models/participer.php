@@ -10,8 +10,8 @@ class participer extends Model
     use HasFactory;
     protected $fillable=[
         'id',
-        'id_mouvement',
-        'id_donateur'
+        'mouvement_id',
+        'donateur_id'
     ];
     protected $dates = ['created_at','updated_at'];
 }

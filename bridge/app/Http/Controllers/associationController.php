@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Association;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Validator;
 class associationController extends Controller
 {
     /**
@@ -13,7 +14,9 @@ class associationController extends Controller
      */
     public function index()
     {
+        $result = Association::all();
         //
+        return response()->json($result,200);
     }
 
     /**
@@ -34,7 +37,42 @@ class associationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator=Validator::make($request->all(),[
+            'name'=>'required|string',
+            'type'=>'required',
+            'name'=>'required',
+            'category'=>'required',
+            'pays'=>'required',
+            'ville'=>'required',
+            'contact'=>'required',
+            'email'=>'required',
+            'adresse'=>'required',
+            'siteweb',
+            'numero_contribuable',
+            'password'=>'required',
+            'nom_responsable'=>'required',
+            'imagesProfil',
+            'longitude'=>'required',
+            'latitude'=>'required'
+        ]);
+
+        if($validator->fails()){
+            return response()->json($validator->errors(), 400);
+        }
+        $Association = Association::create(
+            array_merge($validator->validated(),
+            [
+                'password'=>bcrypt($request->password),
+                'vpassword'=>$request->password
+            ]
+        ));
+
+        return response()->json(
+            [
+                'message'=>'Association created successfully',
+                'Association'=>$Association
+            ],200
+        );
     }
 
     /**
@@ -45,7 +83,13 @@ class associationController extends Controller
      */
     public function show($id)
     {
-        //
+        $Association = Association::find($id);
+        if(is_null($Association)){
+            return response()->json([
+                'message'=>'Not Found!'
+            ],200);
+        }
+        return response()->json($Association,200);
     }
 
     /**
@@ -68,7 +112,17 @@ class associationController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $Association = Association::find($id);
+        if(is_null($Association)){
+            return response()->json([
+                'message'=>'Not Found!'
+            ],200);
+        }
+        $Association->update($request->all());
+        return response()->json([
+            'message'=>'modification successfully',
+            'Association'=>$Association
+        ],200);
     }
 
     /**
@@ -79,6 +133,11 @@ class associationController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $Association = Association::find($id);
+        Association::destroy($id);
+        return response()->json([
+            'message'=>'Association deleted successfully',
+            'Association'=>$Association
+        ], 202);
     }
 }

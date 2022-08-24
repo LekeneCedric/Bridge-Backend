@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Demande;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Validator;
 class demandeController extends Controller
 {
     /**
@@ -13,7 +14,7 @@ class demandeController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json(Demande::all(),200);
     }
 
     /**
@@ -34,7 +35,25 @@ class demandeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator=Validator::make($request->all(),[
+            'donateur_id'=>'required|int',
+            'contenu'=>'required|string',
+            'category'=>'required|string'
+        ]);
+
+        if($validator->fails()){
+            return response()->json($validator->errors(), 400);
+        }
+        $Demande = Demande::create(
+            array_merge($validator->validated()             
+        ));
+
+        return response()->json(
+            [
+                'Demande'=>'Demande created successfully',
+                'demande'=>$Demande
+            ],200
+        );
     }
 
     /**
@@ -45,7 +64,13 @@ class demandeController extends Controller
      */
     public function show($id)
     {
-        //
+        $Demande = Demande::find($id);
+        if(is_null($Demande)){
+            return response()->json([
+                'Demande'=>'not Found!'
+            ],200);
+        }
+        return response()->json($Demande,200);
     }
 
     /**
@@ -68,7 +93,17 @@ class demandeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $Demande = Demande::find($id);
+        if(is_null($Demande)){
+            return response()->json([
+                'Demande'=>'Not Found!'
+            ],200);
+        }
+        $Demande->update($request->all());
+        return response()->json([
+            'Demande'=>'modification successfully',
+            'Demande'=>$Demande
+        ],200);
     }
 
     /**
@@ -79,6 +114,11 @@ class demandeController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $Demande = Demande::find($id);
+        Demande::destroy($id);
+        return response()->json([
+            'Demande'=>'Demande deleted successfully',
+            'Demande'=>$Demande
+        ], 202);
     }
 }

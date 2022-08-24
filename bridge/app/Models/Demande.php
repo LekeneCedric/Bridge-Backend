@@ -10,8 +10,7 @@ class Demande extends Model
     use HasFactory;
     protected $fillable = [
         'id',
-        'id_donateur',
-        'id_user',
+        'donateur_id',
         'contenu',
         'category',
         'resolu'

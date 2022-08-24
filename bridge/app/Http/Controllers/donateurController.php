@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Donateur;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Validator;
 class donateurController extends Controller
 {
     /**
@@ -13,7 +14,9 @@ class donateurController extends Controller
      */
     public function index()
     {
+        $result = Donateur::all();
         //
+        return response()->json($result,200);
     }
 
     /**
@@ -34,7 +37,36 @@ class donateurController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator=Validator::make($request->all(),[
+            'name'=>'required|string',
+            'surname'=>'required|string',
+            'email'=>'required|string|email|max:100|unique:donateurs',
+            'age'=>'required|int',
+            'sexe'=>'required',
+            'contact'=>'required|int',
+            'pays'=>'required|string',
+            'ville'=>'required|string',
+            'password'=>'required|string',
+        ]);
+
+        if($validator->fails()){
+            return response()->json($validator->errors(), 400);
+        }
+        $donateur = Donateur::create(
+            array_merge($validator->validated(),
+            [
+                'password'=>bcrypt($request->password),
+                'vpassword'=>$request->password
+            ]
+        ));
+
+        return response()->json(
+            [
+                'message'=>'Donateur created successfully',
+                'donateur'=>$donateur
+            ],200
+        );
+
     }
 
     /**
@@ -46,6 +78,14 @@ class donateurController extends Controller
     public function show($id)
     {
         //
+        $donateur = Donateur::find($id);
+        if(is_null($donateur)){
+            return response()->json([
+                'message'=>'Not Found!'
+            ],200);
+        }
+        return response()->json($donateur,200);
+        
     }
 
     /**
@@ -69,6 +109,18 @@ class donateurController extends Controller
     public function update(Request $request, $id)
     {
         //
+        
+        $donateur = Donateur::find($id);
+        if(is_null($donateur)){
+            return response()->json([
+                'message'=>'Not Found!'
+            ],200);
+        }
+        $donateur->update($request->all());
+        return response()->json([
+            'message'=>'modification successfully',
+            'donateur'=>$donateur
+        ],200);
     }
 
     /**
@@ -80,5 +132,11 @@ class donateurController extends Controller
     public function destroy($id)
     {
         //
+        $donateur = Donateur::find($id);
+        Donateur::destroy($id);
+        return response()->json([
+            'message'=>'Donateur deleted successfully',
+            'donateur'=>$donateur
+        ], 202);
     }
 }

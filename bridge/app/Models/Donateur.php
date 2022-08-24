@@ -19,8 +19,11 @@ class Donateur extends Model
         'pays',
         'ville',
         'imageProfil',
-        'password',
-        'vpassword'
+        'password'
+        
+    ];
+    protected $hidden =[
+        'vpassword',
     ];
     protected $dates = ['created_at','updated_at'];
 }

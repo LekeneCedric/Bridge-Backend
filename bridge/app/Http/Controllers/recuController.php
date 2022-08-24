@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Recu;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class recuController extends Controller
 {
@@ -13,7 +15,7 @@ class recuController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json(Recu::all(),200);
     }
 
     /**
@@ -34,7 +36,26 @@ class recuController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator=Validator::make($request->all(),[
+            'contenu'=>'required',
+            'don_id'=>'required',
+            'association_id'=>'required',
+            'donateur_id'=>'required'
+        ]);
+
+        if($validator->fails()){
+            return response()->json($validator->errors(), 400);
+        }
+        $Recu = Recu::create(
+            array_merge($validator->validated()             
+        ));
+
+        return response()->json(
+            [
+                'Recu'=>'Recu created successfully',
+                'recu'=>$Recu
+            ],200
+        );
     }
 
     /**
@@ -45,7 +66,13 @@ class recuController extends Controller
      */
     public function show($id)
     {
-        //
+        $Recu = Recu::find($id);
+        if(is_null($Recu)){
+            return response()->json([
+                'Recu'=>'not Found!'
+            ],200);
+        }
+        return response()->json($Recu,200);
     }
 
     /**
@@ -68,7 +95,18 @@ class recuController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+          
+        $Recu = Recu::find($id);
+        if(is_null($Recu)){
+            return response()->json([
+                'Recu'=>'Not Found!'
+            ],200);
+        }
+        $Recu->update($request->all());
+        return response()->json([
+            'Recu'=>'modification successfully',
+            'Recu'=>$Recu
+        ],200);
     }
 
     /**
@@ -79,6 +117,11 @@ class recuController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $Recu = Recu::find($id);
+        Recu::destroy($id);
+        return response()->json([
+            'Recu'=>'Recu deleted successfully',
+            'Recu'=>$Recu
+        ], 200);
     }
 }
