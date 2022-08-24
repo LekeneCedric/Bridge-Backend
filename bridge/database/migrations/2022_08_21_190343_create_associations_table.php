@@ -26,7 +26,6 @@ class CreateAssociationsTable extends Migration
             $table->string('siteweb');
             $table->string('numero_contribuable')->nullable();
             $table->string('password');
-            $table->string('vpassword')->nullable();
             $table->string('nom_responsable');
             $table->string('imagesProfil')->nullable();
             $table->integer('longitude')->nullable();

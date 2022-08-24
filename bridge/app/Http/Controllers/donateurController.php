@@ -35,40 +35,6 @@ class donateurController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        $validator=Validator::make($request->all(),[
-            'name'=>'required|string',
-            'surname'=>'required|string',
-            'email'=>'required|string|email|max:100|unique:donateurs',
-            'age'=>'required|int',
-            'sexe'=>'required',
-            'contact'=>'required|int',
-            'pays'=>'required|string',
-            'ville'=>'required|string',
-            'password'=>'required|string',
-        ]);
-
-        if($validator->fails()){
-            return response()->json($validator->errors(), 400);
-        }
-        $donateur = Donateur::create(
-            array_merge($validator->validated(),
-            [
-                'password'=>bcrypt($request->password),
-                'vpassword'=>$request->password
-            ]
-        ));
-
-        return response()->json(
-            [
-                'message'=>'Donateur created successfully',
-                'donateur'=>$donateur
-            ],200
-        );
-
-    }
-
     /**
      * Display the specified resource.
      *

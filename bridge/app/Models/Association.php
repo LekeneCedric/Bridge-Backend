@@ -21,7 +21,6 @@ class Association extends Model
         'siteweb',
         'numero_contribuable',
         'password',
-        'vpassword',
         'nom_responsable',
         'imagesProfil',
         'longitude',

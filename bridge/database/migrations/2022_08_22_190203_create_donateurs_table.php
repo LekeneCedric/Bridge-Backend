@@ -25,7 +25,6 @@ class CreateDonateursTable extends Migration
             $table->string('ville');
             $table->string('imageProfil')->nullable();
             $table->string('password');
-            $table->string('vpassword')->nullable();
             $table->timestamps();
         });
     }

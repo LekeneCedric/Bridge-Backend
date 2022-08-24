@@ -49,7 +49,7 @@ class associationController extends Controller
             'adresse'=>'required',
             'siteweb',
             'numero_contribuable',
-            'password'=>'required',
+            'password'=>'required|string|confirmed',
             'nom_responsable'=>'required',
             'imagesProfil',
             'longitude'=>'required',
@@ -62,8 +62,7 @@ class associationController extends Controller
         $Association = Association::create(
             array_merge($validator->validated(),
             [
-                'password'=>bcrypt($request->password),
-                'vpassword'=>$request->password
+                'password'=>bcrypt($request->password)
             ]
         ));
 
