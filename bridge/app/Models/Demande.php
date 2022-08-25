@@ -16,4 +16,7 @@ class Demande extends Model
         'resolu'
     ];
     protected $dates = ['created_at', 'updated_at'];
+    public function donateur(){
+        return $this->belongsTo(Donateur::class);
+    }
 }

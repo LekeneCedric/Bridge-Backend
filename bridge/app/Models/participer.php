@@ -14,4 +14,10 @@ class participer extends Model
         'donateur_id'
     ];
     protected $dates = ['created_at','updated_at'];
+    public function donateur(){
+        return $this->belongsTo(Donateur::class);
+    }
+    public function mouvement(){
+        return $this->belongsTo(Mouvement::class);
+    }
 }

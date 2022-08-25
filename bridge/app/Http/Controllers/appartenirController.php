@@ -2,36 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Don;
+use App\Models\appartenir;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-class donController extends Controller
+
+class appartenirController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function getmesdons($id){
-        $don = Don::where('donateur_id', $id)->get();
-        if(is_null($don)){
-           response()->json([
-             'message' => 'Not Found',
-           ]);
-        }
-        $result=[];
-        foreach($don as $do){
-            $do['association_name'] = $do->association->name;
-            array_push($result, $do);
-        } 
-        return response()->json([
-            'message' => 'success',
-            'data' => $result
-        ]);
-    }
     public function index()
     {
-        return response()->json(Don::paginate(15),200);
+       $result = appartenir::all();
+       return $result;
     }
 
     /**
@@ -55,26 +40,19 @@ class donController extends Controller
         $validator=Validator::make($request->all(),[
             'association_id'=>'required',
             'donateur_id'=>'required',
-            'contenu'=>'required',
-            'titre'=>'required',
-            'images'=>'required',
-            'category'=>'required',
-            'etat'=>'required',
-            'description'=>'required',
-            'longitude'=>'required',
-            'latitude'=>'required',
         ]);
 
         if($validator->fails()){
             return response()->json($validator->errors(), 400);
         }
-        $Don = Don::create(
-            array_merge($validator->validated()));
+        $appartenir = appartenir::create(
+            array_merge($validator->validated()
+        ));
 
         return response()->json(
             [
-                'Don'=>'Don created successfully',
-                'Don'=>$Don
+                'message'=>'Register to Association successfully',
+                'Association'=>$appartenir->association
             ],200
         );
     }
@@ -87,13 +65,13 @@ class donController extends Controller
      */
     public function show($id)
     {
-        $Don = Don::find($id);
-        if(is_null($Don)){
+        $appartenir = appartenir::find($id);
+        if(is_null($appartenir)){
             return response()->json([
-                'Don'=>'not Found!'
+                'message'=>'Not Found!'
             ],200);
         }
-        return response()->json($Don,200);
+        return response()->json($appartenir,200);
     }
 
     /**
@@ -116,17 +94,7 @@ class donController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $Don = Don::find($id);
-        if(is_null($Don)){
-            return response()->json([
-                'Don'=>'Not Found!'
-            ],200);
-        }
-        $Don->update($request->all());
-        return response()->json([
-            'Don'=>'modification successfully',
-            'Don'=>$Don
-        ],200);
+        //
     }
 
     /**
@@ -137,11 +105,15 @@ class donController extends Controller
      */
     public function destroy($id)
     {
-        $Don = Don::find($id);
-        Don::destroy($id);
+        $appartenance = appartenir::find($id);
+        if(is_null($appartenance)){
+            return response()->json([
+                'message'=>'Not found !'
+            ],200);
+        }
+        appartenir::destroy($id);
         return response()->json([
-            'Don'=>'Don deleted successfully',
-            'Don'=>$Don
-        ], 200);
+            'message'=>'remove Successfully'
+        ],200);
     }
 }

@@ -74,7 +74,15 @@ class annonceController extends Controller
         }
         return response()->json($Annonce,200);
     }
-
+    public function showAnnoncesAssociation($id){
+        $result = Annonce::where('association_id',$id)->get();
+        if(count($result)<1){
+            return response()->json([
+                'message'=>'Not Found!'
+            ]);
+        }
+        return response()->json($result,200);
+    }
     /**
      * Show the form for editing the specified resource.
      *

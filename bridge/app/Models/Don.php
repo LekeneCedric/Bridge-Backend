@@ -10,6 +10,8 @@ class Don extends Model
     use HasFactory;
     protected $fillable = [
         'id',
+        'association_id',
+        'donateur_id',
         'titre',
         'images',
         'category',
@@ -21,4 +23,10 @@ class Don extends Model
         'disponible'
     ];
     protected $dates = ['created_at', 'updated_at'];
+    public function donateur(){
+        return $this->belongsTo(Donateur::class);
+    }
+    public function association(){
+        return $this->belongsTo(Association::class);
+    }
 }

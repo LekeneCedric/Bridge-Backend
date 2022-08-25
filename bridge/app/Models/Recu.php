@@ -16,4 +16,13 @@ class Recu extends Model
         'donateur_id'
     ];
     protected $dates = ['created_at','updated_at'];
+    public function donateur(){
+        return $this->belongsTo(Donateur::class);
+    }
+    public function association(){
+        return $this->belongsTo(Association::class);
+    }
+    public function don(){
+        return $this->belongsTo(Don::class);
+    }
 }

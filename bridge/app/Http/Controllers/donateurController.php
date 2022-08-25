@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\appartenir;
+use App\Models\Association;
 use App\Models\Donateur;
+use App\Models\participer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 class donateurController extends Controller
 {
@@ -14,7 +19,7 @@ class donateurController extends Controller
      */
     public function index()
     {
-        $result = Donateur::all();
+        $result = Donateur::paginate(5);
         //
         return response()->json($result,200);
     }
@@ -53,7 +58,22 @@ class donateurController extends Controller
         return response()->json($donateur,200);
         
     }
-
+    public function showdonateursAssociation($id){
+      $association = appartenir::where('association_id','=',''.$id.'')->get();
+      $response = [];
+      foreach($association as $asso){
+       array_push($response,$asso->donateur);
+      }
+      return response()->json($response,200);
+    }
+    public function showdonateurMouvements($id){
+        $mouvements = participer::where('mouvement_id','=',$id)->get();
+        $reponse=[];
+        foreach( $mouvements as $mov){
+            array_push($reponse,$mov->donateur);
+        }
+        return response()->json($reponse,200);
+    } 
     /**
      * Show the form for editing the specified resource.
      *
@@ -83,6 +103,12 @@ class donateurController extends Controller
             ],200);
         }
         $donateur->update($request->all());
+        // Supprimer l'ancienne image 
+        if(File::exists('storage/'.$donateur->imageProfil)){
+            File::delete('storage/'.$donateur->imageProfil);
+        }
+        $donateur->imageProfil = $request->file('images')->store('profils','public');
+        $donateur->save();
         return response()->json([
             'message'=>'modification successfully',
             'donateur'=>$donateur

@@ -14,7 +14,7 @@ class associationController extends Controller
      */
     public function index()
     {
-        $result = Association::all();
+        $result = Association::paginate(10);
         //
         return response()->json($result,200);
     }
@@ -47,13 +47,13 @@ class associationController extends Controller
             'contact'=>'required',
             'email'=>'required',
             'adresse'=>'required',
-            'siteweb',
+            'siteweb'=>'required',
             'numero_contribuable',
             'password'=>'required|string|confirmed',
             'nom_responsable'=>'required',
-            'imagesProfil',
             'longitude'=>'required',
-            'latitude'=>'required'
+            'latitude'=>'required',
+            'images'=>'required',
         ]);
 
         if($validator->fails()){
@@ -62,6 +62,7 @@ class associationController extends Controller
         $Association = Association::create(
             array_merge($validator->validated(),
             [
+                'imagesProfil'=>$request->file('images')->store('associations','public'),
                 'password'=>bcrypt($request->password)
             ]
         ));

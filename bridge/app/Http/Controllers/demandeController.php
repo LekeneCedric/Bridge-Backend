@@ -22,6 +22,24 @@ class demandeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function showDemandesDonateur($id){
+        $result = Demande::where('donateur_id', $id)->get();
+        if(count($result)<1){
+            return response()->json([
+                'message'=>'Not Found',
+            ]);
+        }
+        return response()->json($result,200);
+    }
+    public function showDemandesCategory($name){
+        $result = Demande::where('category','like','%'.$name.'%')->get();
+        if(count($result)<1){
+            return response()->json([
+                'message'=>'Not Found',
+            ]);
+        }
+        return response()->json($result,200);
+    }
     public function create()
     {
         //

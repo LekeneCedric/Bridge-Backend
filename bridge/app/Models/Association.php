@@ -20,11 +20,22 @@ class Association extends Model
         'adresse',
         'siteweb',
         'numero_contribuable',
-        'password',
         'nom_responsable',
         'imagesProfil',
         'longitude',
         'latitude'
     ];
     protected $dates = ['created_at', 'updated_at'];
+    public function annonce(){
+        return $this->hasMany(Annonce::class);
+    }
+    public function mouvement(){
+        return $this->hasMany(Mouvement::class);
+    }
+    public function don(){
+        return $this->hasMany(Don::class);
+    }
+    public function recu(){
+        return $this->hasMany(Recu::class);
+    }
 }

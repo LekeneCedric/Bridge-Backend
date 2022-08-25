@@ -23,5 +23,8 @@ class Mouvement extends Model
 
     ];
     protected $dates = ['created_at','updated_at'];
+    public function association(){
+        return $this->belongsTo(Association::class);
+    }
 
 }

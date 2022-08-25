@@ -12,6 +12,15 @@ class messageController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function getConversation($id_sendr,$id_reicv){
+        
+        $messages = Message::where('donateur_id','=',$id_sendr,'AND','receiver_id','=',$id_reicv)->orWhere('receiver_id','=',$id_sendr,'and','donateur_id','=',$id_reicv)->get();
+        // $result = array_merge(...$messages1,...$messages2);
+        return response()->json([
+            'message' => 'conversation get successfully',
+            'data'=>$messages
+        ]);
+    }
     public function index()
     {
         //
@@ -86,7 +95,7 @@ class messageController extends Controller
     {
         //
     }
-
+    
     /**
      * Update the specified resource in storage.
      *

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\annonceController;
+use App\Http\Controllers\appartenirController;
 use App\Http\Controllers\associationController;
 use App\Http\Controllers\authController;
 use App\Http\Controllers\besoinController;
@@ -9,6 +10,7 @@ use App\Http\Controllers\donateurController;
 use App\Http\Controllers\donController;
 use App\Http\Controllers\messageController;
 use App\Http\Controllers\mouvementController;
+use App\Http\Controllers\participerController;
 use App\Http\Controllers\recuController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -26,129 +28,121 @@ use Illuminate\Support\Facades\Route;
 
 /*---------------------------------------------PROTECTED ROUTES ----------------------------------------------------------------*/
 Route::group(['middleware'=>['auth:sanctum']],function(){
+    
     Route::post('/auth/logout',[authController::class,'logout']);
-    
     Route::put('/donateurs/{id}',[donateurController::class,'update']);
-    
     Route::delete('/donateurs/{id}',[donateurController::class,'destroy']);
 
-
+    
+    Route::get('/messages',[messageController::class,'index']);
+    Route::get('/messages/{id}',[messageController::class,'show']);
+    Route::get('/conversation/{id_sendr}-{id_reicv}',[messageController::class,'getConversation']);
     Route::post('/messages',[messageController::class,'store']);
-
     Route::put('/messages/{id}',[messageController::class,'update']);
-
     Route::delete('/messages/{id}',[messageController::class,'destroy']);
 
 
-    Route::post('/annonces/{id}',[annonceController::class,'store']);
-
+    Route::post('/annonces/',[annonceController::class,'store']);
     Route::put('/annonces/{id}',[annonceController::class,'update']);
-
     Route::delete('/annonces/{id}',[annonceController::class,'destroy']);
-
-
+    
     Route::post('/demandes',[demandeController::class,'store']);
-
-    Route::put('/demandes/{id}',[demandeController::class,'store']);
-
+    Route::put('/demandes/{id}',[demandeController::class,'update']);
     Route::delete('/demandes/{id}',[demandeController::class,'destroy']);
 
 
     Route::post('/besoins',[besoinController::class,'store']);
-
-    Route::put('/besoins/{id}',[besoinController::class,'store']);
-
+    Route::put('/besoins/{id}',[besoinController::class,'update']);
     Route::delete('/besoins/{id}',[besoinController::class,'destroy']);
 
-
-
     Route::post('/mouvements',[mouvementController::class,'store']);
-
-    Route::put('/mouvements/{id}',[mouvementController::class,'store']);
-
+    Route::put('/mouvements/{id}',[mouvementController::class,'update']);
     Route::delete('/mouvements/{id}',[mouvementController::class,'destroy']);
 
 
     Route::post('/associations',[associationController::class,'store']);
-
-    Route::put('/associations/{id}',[associationController::class,'store']);
-
+    Route::put('/associations/{id}',[associationController::class,'update']);
     Route::delete('/associations/{id}',[associationController::class,'destroy']);
 
 
     Route::post('/recus',[recuController::class,'store']);
-
-    Route::put('/recus/{id}',[recuController::class,'store']);
-
+    Route::put('/recus/{id}',[recuController::class,'update']);
     Route::delete('/recus/{id}',[recuController::class,'destroy']);
 
 
     Route::post('/dons',[donController::class,'store']);
-
-    Route::put('/dons/{id}',[donController::class,'store']);
-
+    Route::put('/dons/{id}',[donController::class,'update']);
     Route::delete('/dons/{id}',[donController::class,'destroy']);
 
+    Route::post('/appartenances',[appartenirController::class,'store']);
+    Route::delete('/appartenances/{id}',[appartenirController::class,'destroy']);
+
+    Route::post('/participations',[participerController::class,'store']);
+    Route::delete('/participations/{id}',[participerController::class,'destroy']);
 });
 /*---------------------------------------------PUBLIC ROUTES ----------------------------------------------------------------*/
 
 /*Authentication*/
 
 Route::post('/auth/register',[authController::class,'register']);
-
 Route::post('/auth/login',[authController::class,'login']);
 
 /* Donateur */
 Route::get('/donateurs',[donateurController::class,'index']);
-
 Route::get('/donateurs/{id}',[donateurController::class,'show']);
-
-
-
+Route::get('/donateursassociation/{id}',[donateurController::class,'showdonateursAssociation']);
+Route::get('/donateursmouvement/{id_mouvement}',[donateurController::class,'showdonateurMouvements']);
 /* messsage */
 
-Route::get('/messages',[messageController::class,'index']);
-
-Route::get('/messages/{id}',[messageController::class,'show']);
 
 /* annonce */
 
 Route::get('/annonces',[annonceController::class,'index']);
-
 Route::get('/annonces/{id}',[annonceController::class,'show']);
-
+Route::get('/annoncesassociation/{id}',[annonceController::class,'showAnnoncesAssociation']);
 /* demande */
 
 Route::get('/demandes',[demandeController::class,'index']);
-
 Route::get('/demandes/{id}',[demandeController::class,'show']);
-
+Route::get('/demandesdonateur/{id_donateur}',[demandeController::class,'showDemandesDonateur']);
+Route::get('/demandesCategory/{name_category}',[demandeController::class,'showDemandesCategory']);
 /* besoin */
 
 Route::get('/besoins',[besoinController ::class,'index']);
-
 Route::get('/besoins/{id}',[besoinController::class,'show']);
+Route::get('/besoinsnonresolus',[besoinController::class,'besoins_non_resolus']);  
+Route::get('/besoinsresolus',[besoinController::class,'besoins_resolus']);  
+Route::get('/besoinsassociation/{id_association}',[besoinController::class,'besoins_association']);  
+Route::get('/besoinsnonresolusassociation/{id_association}',[besoinController::class,'besoins_non_resolu_association']);  
+Route::get('/besoinsresolusassociation/{id_association}',[besoinController::class,'besoins_resolu_association']);  
+
 /* mouvement */
 
 Route::get('/mouvements',[mouvementController ::class,'index']);
-
 Route::get('/mouvements/{id}',[mouvementController::class,'show']);
+Route::get('/mouvementsassociation/{id}',[mouvementController::class,'mouvementsassociation']);
 
 /* associations */
 
 Route::get('/associations',[associationController ::class,'index']);
-
 Route::get('/associations/{id}',[associationController::class,'show']);
 
 /* recus */
 
 Route::get('/recus',[recuController ::class,'index']);
-
 Route::get('/recus/{id}',[recuController::class,'show']);
+Route::get('/recusdonateur/{id}',[recuController::class,'getrecusdonateur']);
+Route::get('/recusassociation/{id}',[recuController::class,'getrecusassociation']);
+Route::get('/recusdonateurassociation/{id_association}/{id_donateur}',[recuController::class,'getrecusdonateurassociation']);
 
 /* dons */
 
 Route::get('/dons',[donController ::class,'index']);
-
 Route::get('/dons/{id}',[donController::class,'show']);
+Route::get('/mesdons/{id_donateur}',[donController::class,'getmesdons']);
 
+Route::get('/appartenances',[appartenirController ::class,'index']);
+Route::get('/appartenances/{id}',[appartenirController ::class,'show']);
+
+Route::get('/appartenances',[appartenirController ::class,'index']);
+Route::get('/appartenances/{id}',[appartenirController ::class,'show']);

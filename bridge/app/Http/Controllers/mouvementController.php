@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Mouvement;
+use App\Models\participer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 class mouvementController extends Controller
@@ -12,6 +13,28 @@ class mouvementController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function mouvementsassociation($id){
+        $mouvements = Mouvement::where('association_id',$id)->get();
+
+        if(count($mouvements)<1){
+            return response()->json([
+                'message' => 'This association not contain Mouvement'
+            ]);
+        }
+        $response=[];
+       foreach($mouvements as $mouvement){
+        $mouvement->association = $mouvement->association;
+        $donateurs=[];
+        $participants = participer::where('mouvement_id',$mouvement->id)->get();
+        foreach($participants as $participant){
+            array_push($donateurs,$participant->donateur);
+        }
+        $mouvement->donateurs = $donateurs;
+
+        array_push($response,$mouvement);
+       }
+       return response()->json($response);
+    }
     public function index()
     {
         return response()->json(Mouvement::all(),200);

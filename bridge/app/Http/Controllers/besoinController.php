@@ -13,6 +13,76 @@ class besoinController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function besoins_non_resolus(){
+        $besoins = Besoin::where('resolu','0')->get();
+        if(count($besoins) < 1){
+            return response()->json([
+                'message' => 'No besoin found.'
+            ]);
+        }
+        $result = [];
+        foreach($besoins as $besoin){
+            $besoin->association = $besoin->association;
+          array_push($result, $besoin);
+        }
+        return response()->json($result);
+    }
+    public function besoins_resolus(){
+        $besoins = Besoin::where('resolu','1')->get();
+        if(count($besoins) < 1){
+            return response()->json([
+                'message' => 'No besoin found.'
+            ]);
+        }
+        $result = [];
+        foreach($besoins as $besoin){
+            $besoin->association = $besoin->association;
+          array_push($result, $besoin);
+        }
+        return response()->json($result);
+    }
+    public function besoins_association($id){
+        $besoins = Besoin::where('association_id',$id)->get();
+        if(count($besoins) < 1){
+            return response()->json([
+                'message' => 'this association dont have requiert'
+            ]);
+        }
+        $result = [];
+        foreach($besoins as $besoin){
+            $besoin->association = $besoin->association;
+          array_push($result, $besoin);
+        }
+        return response()->json($result); 
+    }
+    public function besoins_non_resolu_association($id){
+        $besoins = Besoin::where('association_id',$id)->where('resolu','0')->get();
+        if(count($besoins) < 1){
+            return response()->json([
+                'message' => 'this association dont have non resolved requiert'
+            ]);
+        }
+        $result = [];
+        foreach($besoins as $besoin){
+            $besoin->association = $besoin->association;
+          array_push($result, $besoin);
+        }
+        return response()->json($result); 
+    }
+    public function besoins_resolu_association($id){
+        $besoins = Besoin::where('association_id',$id)->where('resolu','1')->get();
+        if(count($besoins) < 1){
+            return response()->json([
+                'message' => 'this association dont have resolved requiert'
+            ]);
+        }
+        $result = [];
+        foreach($besoins as $besoin){
+            $besoin->association = $besoin->association;
+          array_push($result, $besoin);
+        }
+        return response()->json($result); 
+    }
     public function index()
     {
         return response()->json(Besoin::all(),200);

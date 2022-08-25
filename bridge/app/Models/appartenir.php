@@ -14,4 +14,10 @@ class appartenir extends Model
         'donateur_id'
     ];
     protected $dates = ['created_at','updated_at'];
+    public function association(){
+        return $this->belongsTo(Association::class);
+    }
+    public function donateur(){
+        return $this->belongsTo(Donateur::class);
+    }
 }

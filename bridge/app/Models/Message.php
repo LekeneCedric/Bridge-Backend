@@ -16,4 +16,8 @@ class Message extends Model
         'vu',
     ];
     protected $dates = ['created_at','updated_at'];
+
+    public function donateur(){
+        return $this->belongsTo(Donateur::class);
+    }
 }

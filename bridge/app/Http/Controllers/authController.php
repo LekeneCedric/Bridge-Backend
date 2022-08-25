@@ -27,20 +27,23 @@ class authController extends Controller
             'pays'=>'required|string',
             'ville'=>'required|string',
             'password'=>'required|string|confirmed',
+            'images'=>'required'    
         ]);
 
         if($validator->fails()){
             return response()->json($validator->errors(), 400);
         }
+        if($request->file('images')){
         $donateur = Donateur::create(
             array_merge($validator->validated(),
             [
+                'imageProfil'=>$request->file('images')->store('profils','public'),
                 'password'=>bcrypt($request->password)
             ]
-        ));
+            ));
+    }
         $token = $donateur->createToken('myapptoken')->plainTextToken; 
         $response = [
-            'user' => $donateur,
             'token' => $token
         ];
         return response()->json($response,201);

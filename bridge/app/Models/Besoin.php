@@ -13,8 +13,12 @@ class Besoin extends Model
         'association_id',
         'contenu',
         'category',
+        'attente',
         'resolu',
         'images'
     ];
     protected $dates = ['created_at', 'updated_at'];
+    public function association(){
+        return $this->belongsTo(Association::class);
+    }
 }

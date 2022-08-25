@@ -13,6 +13,61 @@ class recuController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function getrecusassociation($id){
+        $recu = Recu::where('association_id', $id)->get();
+        if(count($recu) <1){
+            return response()->json([
+                'message' => 'not found',
+            ]);
+        }
+        $response=[];
+        foreach($recu as $recu){
+            $recu->association = $recu->association;
+            $recu->don = $recu->don;
+            array_push($response, $recu);
+        }
+        return response()->json([
+            'message' => 'success',
+            'data' => $response,
+        ]); 
+    }
+    public function getrecusdonateurassociation($id_association,$id_donateur){
+        $recu = Recu::where('donateur_id', $id_donateur)->where('association_id', $id_association)->get();
+        if(count($recu) <1){
+            return response()->json([
+                'message' => 'not found',
+            ]);
+        }
+        $response=[];
+        foreach($recu as $recu){
+            $recu->association = $recu->association;
+            $recu->don = $recu->don;
+            array_push($response, $recu);
+        }
+        return response()->json([
+            'message' => 'success',
+            'association'=> $response[0]->association->name,
+            'data' => $response,
+        ]);
+    }
+    public function getrecusdonateur($id){
+        $recu = Recu::where('donateur_id', $id)->get();
+        if(count($recu) <1){
+            return response()->json([
+                'message' => 'not found',
+            ]);
+        }
+        $response=[];
+        foreach($recu as $recu){
+            $recu->association = $recu->association;
+            $recu->don = $recu->don;
+            array_push($response, $recu);
+        }
+        return response()->json([
+            'message' => 'success',
+            'data' => $response,
+        ]);
+    }
     public function index()
     {
         return response()->json(Recu::all(),200);
