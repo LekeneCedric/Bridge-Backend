@@ -21,7 +21,8 @@ class mediascontroller extends Controller
         if($request->hasfile('files')) {
             foreach($request->file('files') as $file)
             {
-               $fileName = time().'_'.$file->getClientOriginalName();
+                try {
+                    $fileName = time().'_'.$file->getClientOriginalName();
                $extension = $file->getClientOriginalExtension();
                $filePath = $file->storeAs('medias', $fileName, 'public');
                $media = media::create(array_merge($request->all(),
@@ -30,6 +31,10 @@ class mediascontroller extends Controller
                    'extension'=>$extension,
                    'fileName'=>$fileName,
                ]));
+                } catch (\Throwable $th) {
+                    return response()->json($validator->errors(), 400);
+                }
+               
            }}
            else{
             return response()->json($validator->errors(), 400);
