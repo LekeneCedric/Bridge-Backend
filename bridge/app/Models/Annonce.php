@@ -13,12 +13,13 @@ class Annonce extends Model
         'association_id',
         'title',
         'intitule',
-        'category',
         'nbvue',
-        'images'
     ];
     protected $dates =  ['created_at', 'updated_at'];
     public function association(){
         return $this->belongsTo(Association::class);
+    }
+    public function media(){
+        return $this->hasMany(media::class);
     }
 }

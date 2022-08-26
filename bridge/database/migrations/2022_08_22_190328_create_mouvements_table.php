@@ -21,10 +21,9 @@ class CreateMouvementsTable extends Migration
             $table->date('date_rencontre');
             $table->string('heure_debut');
             $table->string('heure_fin');
-            $table->integer('latitude')->nullable();
-            $table->integer('longitude')->nullable();
-            $table->string('description');
-            $table->string('images')->nullable();
+            $table->float('longitude')->nullable();
+            $table->float('latitude')->nullable();
+            $table->text('description');
             $table->timestamps();
         });
     }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Mouvement;
 use App\Models\participer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 class mouvementController extends Controller
 {
@@ -67,15 +68,24 @@ class mouvementController extends Controller
             'heure_fin'=>'required',
             'latitude'=>'required',
             'longitude'=>'required',
-            'description'=>'required',
+            'description'=>'required'
         ]);
 
         if($validator->fails()){
             return response()->json($validator->errors(), 400);
         }
-        $Mouvement = Mouvement::create(
-            array_merge($validator->validated()             
-        ));
+        if($request->file('images')){
+            $Mouvement = Mouvement::create(
+                array_merge($validator->validated() ,
+                [
+                    'password'=>bcrypt($request->password)
+                ]
+                ));
+        }else{
+            return response()->json([
+                'message'=>'Unable to load image'
+            ], 400);
+        }
 
         return response()->json(
             [
@@ -116,7 +126,18 @@ class mouvementController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $mouvement = Mouvement::find($id);
+        if(is_null($mouvement)){return response()->json(['message' => 'not found']);}
+        
+        $mouvement->update($request->all());
+        return response()->json(['message' => 'success','mouvement'=>$mouvement]);
+        
+    }
+    public function updateMedia(Request $request, $id){
+        $mouvement = Mouvement::find($id);
+        if(is_null($mouvement)){return response()->json(['message' => 'not found']);}
+        return response()->json(['message' => 'success','mouvement'=>$mouvement]);
+          
     }
 
     /**
@@ -127,6 +148,16 @@ class mouvementController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $mouvement = Mouvement::find($id);
+        if(is_null($mouvement)){
+            return response()->json([
+                'message' => 'No Mouvement found !'
+            ]);
+        }
+        $mouvement->destroy();
+        return response()->json([
+            'message' => 'Mouvement deleted !',
+            'mouvement' => $mouvement
+        ]);
     }
 }

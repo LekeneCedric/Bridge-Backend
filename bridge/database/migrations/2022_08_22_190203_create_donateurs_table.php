@@ -18,12 +18,11 @@ class CreateDonateursTable extends Migration
             $table->string('name',50);
             $table->string('surname',50);
             $table->string('email',50);
-            $table->integer('age');
+            $table->date('date_naissance');
             $table->char('sexe');
             $table->string('contact');
             $table->string('pays');
             $table->string('ville');
-            $table->string('imageProfil')->nullable();
             $table->string('password');
             $table->timestamps();
         });

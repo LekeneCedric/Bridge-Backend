@@ -18,9 +18,7 @@ class CreateAnnoncesTable extends Migration
             $table->foreignId('association_id')->constrained('associations');
             $table->string('title');
             $table->string('intitule');
-            $table->string('category');
             $table->integer('nbvue');
-            $table->string('images')->nullable();
             $table->timestamps();
         });
     }

@@ -8,6 +8,8 @@ use App\Http\Controllers\besoinController;
 use App\Http\Controllers\demandeController;
 use App\Http\Controllers\donateurController;
 use App\Http\Controllers\donController;
+use App\Http\Controllers\MediaController;
+use App\Http\Controllers\mediascontroller;
 use App\Http\Controllers\messageController;
 use App\Http\Controllers\mouvementController;
 use App\Http\Controllers\participerController;
@@ -79,6 +81,16 @@ Route::group(['middleware'=>['auth:sanctum']],function(){
 
     Route::post('/participations',[participerController::class,'store']);
     Route::delete('/participations/{id}',[participerController::class,'destroy']);
+
+    Route::get('/medias',[mediascontroller ::class,'index']);
+    Route::get('/medias/{id}',[mediascontroller ::class,'show']);
+    Route::get('/medias/donateur/{id}',[mediascontroller ::class,'showDonateurMedia']);
+    Route::get('/medias/annonce/{id}',[mediascontroller ::class,'showAnnonceMediaMedia']);
+    Route::get('/medias/association/{id}',[mediascontroller ::class,'showAssociationMedia']);
+    Route::get('/medias/don/{id}',[mediascontroller ::class,'showDonMedia']);
+    Route::get('/medias/mouvement/{id}',[mediascontoller::class,'showMouvementMedia']);
+    Route::post('/medias',[mediascontroller ::class,'store']);
+    Route::delete('/medias/{id}',[mediascontroller ::class,'destroy']);
 });
 /*---------------------------------------------PUBLIC ROUTES ----------------------------------------------------------------*/
 

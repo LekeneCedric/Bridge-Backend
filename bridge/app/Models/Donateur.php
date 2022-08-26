@@ -15,16 +15,19 @@ class Donateur extends Model
         'name',
         'surname',
         'email',
-        'age',
+        'date_naissance',
         'sexe',
         'contact',
         'pays',
         'ville',
-        'imageProfil'
+        'password',
         
     ];
     protected $dates = ['created_at','updated_at'];
-
+    
+    public function media(){
+        return $this->hasMany(media::class);
+    }
     public function message(){
         return $this->hasMany(Message::class);
     }

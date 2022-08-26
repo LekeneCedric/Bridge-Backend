@@ -18,12 +18,11 @@ class CreateDonsTable extends Migration
             $table->foreignId('association_id')->nullable()->constrained('associations');
             $table->foreignId('donateur_id')->constrained('donateurs');
             $table->string('titre');
-            $table->string('images')->nullable();
             $table->string('category');
             $table->string('etat');
             $table->text('description');
-            $table->integer('longitude')->nullable();
-            $table->integer('latitude')->nullable();
+            $table->float('longitude')->nullable();
+            $table->float('latitude')->nullable();
             $table->integer('nombre_reserve')->default(0);
             $table->integer('disponible')->default(0);
             $table->timestamps();

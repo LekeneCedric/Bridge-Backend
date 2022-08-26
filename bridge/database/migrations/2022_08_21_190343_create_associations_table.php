@@ -27,9 +27,8 @@ class CreateAssociationsTable extends Migration
             $table->string('numero_contribuable')->nullable();
             $table->string('password');
             $table->string('nom_responsable');
-            $table->string('imagesProfil')->nullable();
-            $table->integer('longitude')->nullable();
-            $table->integer('latitude')->nullable();
+            $table->float('longitude')->nullable();
+            $table->float('latitude')->nullable();
             $table->timestamps();
         });
     }

@@ -18,9 +18,8 @@ class CreateBesoinsTable extends Migration
             $table->foreignId('association_id')->constrained('associations');
             $table->string('contenu');
             $table->string('category');
-            $table->string('attente')->default(0);
+            $table->integer('attente')->default(0);
             $table->integer('resolu')->default(0);
-            $table->string('images')->nullable();
             $table->timestamps();
         });
     }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Annonce;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 class annonceController extends Controller
 {
@@ -39,16 +40,14 @@ class annonceController extends Controller
            'association_id'=>'required',
            'title'=>'required',
            'intitule'=>'required',
-           'category'=>'required',
            'nbvue'=>'required',
         ]);
 
         if($validator->fails()){
             return response()->json($validator->errors(), 400);
         }
-        $Annonce = Annonce::create(
-            array_merge($validator->validated()             
-        ));
+            $Annonce = Annonce::create(
+                array_merge($validator->validated()));
 
         return response()->json(
             [
@@ -110,6 +109,7 @@ class annonceController extends Controller
             ],200);
         }
         $Annonce->update($request->all());
+        $Annonce->save();
         return response()->json([
             'Annonce'=>'modification successfully',
             'Annonce'=>$Annonce

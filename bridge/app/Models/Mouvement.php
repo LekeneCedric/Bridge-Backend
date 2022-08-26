@@ -18,13 +18,16 @@ class Mouvement extends Model
         'heure_fin',
         'latitude',
         'longitude',
-        'description',
-        'images'
+        'description'
 
     ];
     protected $dates = ['created_at','updated_at'];
     public function association(){
         return $this->belongsTo(Association::class);
+    }
+
+    public function media(){
+        return $this->hasMany(media::class);
     }
 
 }

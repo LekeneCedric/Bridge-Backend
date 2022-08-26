@@ -55,7 +55,9 @@ class donateurController extends Controller
                 'message'=>'Not Found!'
             ],200);
         }
-        return response()->json($donateur,200);
+        $donateur->media = $donateur->media;
+        $response=$donateur;
+        return response()->json($response);
         
     }
     public function showdonateursAssociation($id){
@@ -103,12 +105,6 @@ class donateurController extends Controller
             ],200);
         }
         $donateur->update($request->all());
-        // Supprimer l'ancienne image 
-        if(File::exists('storage/'.$donateur->imageProfil)){
-            File::delete('storage/'.$donateur->imageProfil);
-        }
-        $donateur->imageProfil = $request->file('images')->store('profils','public');
-        $donateur->save();
         return response()->json([
             'message'=>'modification successfully',
             'donateur'=>$donateur

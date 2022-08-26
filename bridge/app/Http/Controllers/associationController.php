@@ -53,7 +53,6 @@ class associationController extends Controller
             'nom_responsable'=>'required',
             'longitude'=>'required',
             'latitude'=>'required',
-            'images'=>'required',
         ]);
 
         if($validator->fails()){
@@ -62,7 +61,6 @@ class associationController extends Controller
         $Association = Association::create(
             array_merge($validator->validated(),
             [
-                'imagesProfil'=>$request->file('images')->store('associations','public'),
                 'password'=>bcrypt($request->password)
             ]
         ));

@@ -57,24 +57,15 @@ class donController extends Controller
             'donateur_id'=>'required',
             'contenu'=>'required',
             'titre'=>'required',
-            'images'=>'required',
             'category'=>'required',
             'etat'=>'required',
             'description'=>'required',
             'longitude'=>'required',
             'latitude'=>'required',
         ]);
-
-        if($validator->fails()){
-            return response()->json($validator->errors(), 400);
-        }
-        $Don = Don::create(
-            array_merge($validator->validated()));
-
         return response()->json(
             [
-                'Don'=>'Don created successfully',
-                'Don'=>$Don
+                'Don'=>'Don created successfully'
             ],200
         );
     }

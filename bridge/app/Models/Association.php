@@ -21,7 +21,7 @@ class Association extends Model
         'siteweb',
         'numero_contribuable',
         'nom_responsable',
-        'imagesProfil',
+        'password',
         'longitude',
         'latitude'
     ];
@@ -37,5 +37,9 @@ class Association extends Model
     }
     public function recu(){
         return $this->hasMany(Recu::class);
+    }
+
+    public function media(){
+        return $this->hasMany(media::class);
     }
 }

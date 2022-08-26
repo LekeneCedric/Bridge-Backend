@@ -13,7 +13,6 @@ class Don extends Model
         'association_id',
         'donateur_id',
         'titre',
-        'images',
         'category',
         'etat',
         'description',
@@ -28,5 +27,9 @@ class Don extends Model
     }
     public function association(){
         return $this->belongsTo(Association::class);
+    }
+
+    public function media(){
+        return $this->hasMany(media::class);
     }
 }

@@ -14,8 +14,7 @@ class Besoin extends Model
         'contenu',
         'category',
         'attente',
-        'resolu',
-        'images'
+        'resolu'
     ];
     protected $dates = ['created_at', 'updated_at'];
     public function association(){
