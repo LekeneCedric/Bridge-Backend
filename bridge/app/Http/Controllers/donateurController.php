@@ -55,6 +55,30 @@ class donateurController extends Controller
                 'message'=>'Not Found!'
             ],200);
         }
+        $dons = count($donateur->don);
+        $donateur->dons = $dons;
+        if($dons<=2){
+        $donateur->statut = 'bebe Bridger';
+        }
+        else if($dons>2 && $dons<=10){
+            $donateur->statut = 'petit Bridger';
+        }
+        else if($dons>10 && $dons<=25){
+            $donateur->statut = 'Ado Bridger';
+        }
+        else if($dons>25 && $dons<=50){
+            $donateur->statut = 'adulte Bridger';
+        }
+        else if($dons>50 && $dons<=100){
+            $donateur->statut = 'costaud Bridger';
+        }
+        else if($dons>100 && $dons<=500){
+            $donateur->statut = 'Roi des Bridger';
+        }
+        else if($dons>500 && $dons<=1000){
+            $donateur->statut = 'dieu Bridger';
+        }
+        
         $donateur->media = $donateur->media;
         $response=$donateur;
         return response()->json($response);

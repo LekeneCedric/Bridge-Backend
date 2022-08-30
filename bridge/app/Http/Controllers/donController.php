@@ -53,7 +53,6 @@ class donController extends Controller
     public function store(Request $request)
     {
         $validator=Validator::make($request->all(),[
-            'association_id'=>'required',
             'donateur_id'=>'required',
             'contenu'=>'required',
             'titre'=>'required',
@@ -63,9 +62,15 @@ class donController extends Controller
             'longitude'=>'required',
             'latitude'=>'required',
         ]);
+        if($validator->fails()){
+            return response()->json($validator->errors(), 400);
+        }
+        $don = Don::create(array_merge($request->all()));
         return response()->json(
             [
-                'Don'=>'Don created successfully'
+                'message'=>'Don created successfully',
+                'Don'=>$don
+                
             ],200
         );
     }
