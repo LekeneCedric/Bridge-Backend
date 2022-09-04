@@ -57,29 +57,56 @@ class donateurController extends Controller
         }
         $dons = count($donateur->don);
         $donateur->dons = $dons;
+        foreach ($donateur->don as $don){
+            $i=0;
+            $don->media;
+            $i++;
+        }
         if($dons<=2){
+            $donateur->niveau = 1;
         $donateur->statut = 'bebe Bridger';
         }
         else if($dons>2 && $dons<=10){
+            $donateur->niveau = 2;
             $donateur->statut = 'petit Bridger';
         }
         else if($dons>10 && $dons<=25){
+            $donateur->niveau = 3;
             $donateur->statut = 'Ado Bridger';
         }
         else if($dons>25 && $dons<=50){
+            $donateur->niveau = 4;
             $donateur->statut = 'adulte Bridger';
         }
         else if($dons>50 && $dons<=100){
+            $donateur->niveau = 5;
             $donateur->statut = 'costaud Bridger';
         }
         else if($dons>100 && $dons<=500){
+            $donateur->niveau = 6;
             $donateur->statut = 'Roi des Bridger';
         }
         else if($dons>500 && $dons<=1000){
+            $donateur->niveau = 7;
             $donateur->statut = 'dieu Bridger';
         }
-        
+        $appartenances = appartenir::where('donateur_id','=',$donateur->id)->get();
+        $mes_appartenances = [];
+        foreach($appartenances as $ap){
+            array_push($mes_appartenances,$ap);
+        }
+        $donateur->nbassociations = count($mes_appartenances);
+        $donateur->associations = $mes_appartenances;
+        $participations = participer::where('donateur_id','=',$donateur->id)->get();
+        $mes_mouvements = [];
+        foreach($participations as $participation){
+         array_push($mes_mouvements,$participation->mouvement);
+        }
+        $donateur->nbmouvements = count($mes_mouvements);
+        $donateur->mouvements = $mes_mouvements;
         $donateur->media = $donateur->media;
+        $donateur->nbdemandes = count($donateur->demande);
+        $donateur->demande;
         $response=$donateur;
         return response()->json($response);
         

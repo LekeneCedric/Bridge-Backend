@@ -5,19 +5,24 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Message extends Model
+class Demande extends Model
 {
     use HasFactory;
     protected $fillable = [
         'id',
         'donateur_id',
-        'receiver_id',
+        'title',
         'contenu',
-        'vu',
+        'adresse',
+        'category',
+        'resolu'
     ];
-    protected $dates = ['created_at','updated_at'];
-
+    protected $dates = ['created_at', 'updated_at'];
     public function donateur(){
         return $this->belongsTo(Donateur::class);
     }
+    public function message(){
+        return $this->hasMany(Message::class);
+    }
+    
 }

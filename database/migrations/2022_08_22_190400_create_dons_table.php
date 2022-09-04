@@ -20,6 +20,7 @@ class CreateDonsTable extends Migration
             $table->string('titre');
             $table->string('category');
             $table->string('etat');
+            $table->string('adresse');
             $table->text('description');
             $table->float('longitude')->nullable();
             $table->float('latitude')->nullable();

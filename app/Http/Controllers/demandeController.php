@@ -14,7 +14,12 @@ class demandeController extends Controller
      */
     public function index()
     {
-        return response()->json(Demande::all(),200);
+        $demandes = Demande::all();
+        foreach ($demandes as $demande){
+            $demande->donateur= $demande->donateur;
+            $demande->donateur->photoprofil = $demande->donateur->media;
+        }
+        return response()->json($demandes,200);
     }
 
     /**
@@ -55,7 +60,9 @@ class demandeController extends Controller
     {
         $validator=Validator::make($request->all(),[
             'donateur_id'=>'required|int',
+            'title'=>'required|string',
             'contenu'=>'required|string',
+            'adresse'=>'required|string',
             'category'=>'required|string'
         ]);
 
@@ -87,6 +94,10 @@ class demandeController extends Controller
             return response()->json([
                 'Demande'=>'not Found!'
             ],200);
+        }
+        else{
+            $Demande->donateur = $Demande->donateur;
+            $Demande->donateur->media;
         }
         return response()->json($Demande,200);
     }

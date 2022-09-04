@@ -74,18 +74,13 @@ class mouvementController extends Controller
         if($validator->fails()){
             return response()->json($validator->errors(), 400);
         }
-        if($request->file('images')){
             $Mouvement = Mouvement::create(
                 array_merge($validator->validated() ,
                 [
                     'password'=>bcrypt($request->password)
                 ]
                 ));
-        }else{
-            return response()->json([
-                'message'=>'Unable to load image'
-            ], 400);
-        }
+        
 
         return response()->json(
             [

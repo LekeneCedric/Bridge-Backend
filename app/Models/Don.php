@@ -15,6 +15,7 @@ class Don extends Model
         'titre',
         'category',
         'etat',
+        'adresse',
         'description',
         'longitude',
         'latitude',
@@ -31,5 +32,8 @@ class Don extends Model
 
     public function media(){
         return $this->hasMany(media::class);
+    }
+    public function message(){
+        return $this->hasMany(Message::class);
     }
 }

@@ -46,4 +46,7 @@ class Donateur extends Model
     public function mouvement(){
         return $this->belongsToMany(Mouvement::class);
     }
+    public function participer(){
+        return $this->hasMany(participer::class);
+    }
 }

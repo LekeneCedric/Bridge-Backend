@@ -12,10 +12,74 @@ class donController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function test(Request $request){
+        $res = $request->category;
+        return response()->json(
+            ['req'=> $res]
+        );
+    }
+    public function getDonSimilaire($id,$category){
+        $don = Don::where('category',$category)->where('id','!=',$id)->get();
+        if(is_null($don)){
+            return response()->json([
+                'message' => 'Not Found',
+              ]);
+        }
+        foreach($don as $d){
+            $d->media;
+        }
+        return $don;
+    }
+    public function getDonFiltreByCategory($category){
+        $donfiltre = Don::where('category','=',$category)->paginate(6);
+
+        if(count($donfiltre)<1){
+         $response = response()->json([
+             'error'=>'Aucun don correspondant a vos filtre'
+         ]);
+         return $response;
+        }
+        foreach($donfiltre as $don){
+         $don->media = $don->media;
+         $don->donateur = $don->donateur;
+     }
+     return response()->json($donfiltre,200);
+    }
+    public function getDonFiltreByEtat($etat){
+        $donfiltre = Don::where('etat','=',$etat)->paginate(6);
+
+        if(count($donfiltre)<1){
+         $response = response()->json([
+             'error'=>'Aucun don correspondant a vos filtre'
+         ]);
+         return $response;
+        }
+        foreach($donfiltre as $don){
+         $don->media = $don->media;
+         $don->donateur = $don->donateur;
+     }
+     return response()->json($donfiltre,200);
+    }
+    public function getDonWithCategoryAndEtat($category,$etat){
+       $donfiltre = Don::where('category','=',$category)->where('etat','=',$etat)->paginate(6);
+
+       if(count($donfiltre)<1){
+        $response = response()->json([
+            'error'=>'Aucun don correspondant a vos filtre'
+        ]);
+        return $response;
+       }
+       foreach($donfiltre as $don){
+        $don->media = $don->media;
+        $don->donateur = $don->donateur;
+    }
+    return response()->json($donfiltre,200);
+
+    }
     public function getmesdons($id){
         $don = Don::where('donateur_id', $id)->get();
         if(is_null($don)){
-           response()->json([
+           return response()->json([
              'message' => 'Not Found',
            ]);
         }
@@ -31,7 +95,12 @@ class donController extends Controller
     }
     public function index()
     {
-        return response()->json(Don::paginate(15),200);
+        $dons = Don::paginate(6);
+        foreach($dons as $don){
+            $don->media = $don->media;
+            $don->donateur = $don->donateur;
+        }
+        return response()->json($dons,200);
     }
 
     /**
@@ -53,14 +122,14 @@ class donController extends Controller
     public function store(Request $request)
     {
         $validator=Validator::make($request->all(),[
-            'donateur_id'=>'required',
-            'contenu'=>'required',
-            'titre'=>'required',
-            'category'=>'required',
-            'etat'=>'required',
-            'description'=>'required',
-            'longitude'=>'required',
-            'latitude'=>'required',
+        'donateur_id'=>'required',
+        'titre'=>'required',
+        'category'=>'required',
+        'etat'=>'required',
+        'adresse'=>'required',
+        'description'=>'required',
+        'longitude'=>'required',
+        'latitude'=>'required'
         ]);
         if($validator->fails()){
             return response()->json($validator->errors(), 400);
@@ -89,6 +158,9 @@ class donController extends Controller
                 'Don'=>'not Found!'
             ],200);
         }
+        $Don->media = $Don->media;
+        $Don->donateur = $Don->donateur;
+        $Don->donateur->media = $Don->donateur->media;
         return response()->json($Don,200);
     }
 

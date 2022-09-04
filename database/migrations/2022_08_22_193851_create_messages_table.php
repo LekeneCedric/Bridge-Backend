@@ -19,6 +19,8 @@ class CreateMessagesTable extends Migration
             $table->integer('receiver_id');
             $table->text('contenu');
             $table->integer('vu')->default(0);
+            $table->foreignId('demande_id')->nullable()->constrained('demandes');
+            $table->foreignId('don_id')->nullable()->constrained('dons');
             $table->timestamps();
         });
     }

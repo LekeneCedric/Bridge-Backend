@@ -15,19 +15,16 @@ class mediascontroller extends Controller
 
     public function store(Request $request){
         $validator=Validator::make($request->all(),[
-            'files' => 'required',
-            'files.*' => 'mimes:jpeg,jpg,png,gif,csv,txt,doc,docx,pdf|max:2048'  
+            'file' => 'required', 
         ]);
-        if($request->hasfile('files')) {
-            foreach($request->file('files') as $file)
-            {
+        if($request->hasfile('file')) {
                 try {
-                    $fileName = time().'_'.$file->getClientOriginalName();
-               $extension = $file->getClientOriginalExtension();
-               $filePath = $file->storeAs('medias', $fileName, 'public');
+                    $fileName = time().'_'.$request->file('file')->getClientOriginalName();
+               $extension = $request->file('file')->getClientOriginalExtension();
+               $filePath = $request->file('file')->storeAs('medias', $fileName, 'public');
                $media = media::create(array_merge($request->all(),
                [
-                   'filePath'=>$file->storeAs('medias', $fileName, 'public'),
+                   'filePath'=>$request->file('file')->storeAs('medias', $fileName, 'public'),
                    'extension'=>$extension,
                    'fileName'=>$fileName,
                ]));
@@ -35,7 +32,7 @@ class mediascontroller extends Controller
                     return response()->json($validator->errors(), 400);
                 }
                
-           }}
+           }
            else{
             return response()->json($validator->errors(), 400);
            }

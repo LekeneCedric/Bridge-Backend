@@ -26,12 +26,11 @@ class authController extends Controller
             'contact'=>'required|int',
             'pays'=>'required|string',
             'ville'=>'required|string',
-            'password'=>'required|string|confirmed',
-            'imageProfil'=>'required'    
+            'password'=>'required|string|confirmed' 
         ]);
 
         if($validator->fails()){
-            return response()->json($validator->errors(), 400);
+            return response()->json(['message'=>$validator->errors()], 400);
         }
         $donateur = Donateur::create(
             array_merge($validator->validated(),

@@ -44,13 +44,14 @@ Route::group(['middleware'=>['auth:sanctum']],function(){
     Route::delete('/messages/{id}',[messageController::class,'destroy']);
 
 
-    Route::post('/annonces/',[annonceController::class,'store']);
+    Route::post('/annonces',[annonceController::class,'store']);
     Route::put('/annonces/{id}',[annonceController::class,'update']);
     Route::delete('/annonces/{id}',[annonceController::class,'destroy']);
     
     Route::post('/demandes',[demandeController::class,'store']);
     Route::put('/demandes/{id}',[demandeController::class,'update']);
     Route::delete('/demandes/{id}',[demandeController::class,'destroy']);
+    
 
 
     Route::post('/besoins',[besoinController::class,'store']);
@@ -82,20 +83,15 @@ Route::group(['middleware'=>['auth:sanctum']],function(){
     Route::post('/participations',[participerController::class,'store']);
     Route::delete('/participations/{id}',[participerController::class,'destroy']);
 
-    Route::get('/medias',[mediascontroller ::class,'index']);
-    Route::get('/medias/{id}',[mediascontroller ::class,'show']);
-    Route::get('/medias/donateur/{id}',[mediascontroller ::class,'showDonateurMedia']);
-    Route::get('/medias/annonce/{id}',[mediascontroller ::class,'showAnnonceMediaMedia']);
-    Route::get('/medias/association/{id}',[mediascontroller ::class,'showAssociationMedia']);
-    Route::get('/medias/don/{id}',[mediascontroller ::class,'showDonMedia']);
-    Route::get('/medias/mouvement/{id}',[mediascontoller::class,'showMouvementMedia']);
-    Route::post('/medias',[mediascontroller ::class,'store']);
-    Route::delete('/medias/{id}',[mediascontroller ::class,'destroy']);
+  
 });
 /*---------------------------------------------PUBLIC ROUTES ----------------------------------------------------------------*/
 
+Route::post('/test',[donController::class,'test']);
 /*Authentication*/
-
+Route::get('/validate-token', function () {
+    return ['data' => 'Token is valid'];
+})->middleware('auth:sanctum');
 Route::post('/auth/register',[authController::class,'register']);
 Route::post('/auth/login',[authController::class,'login']);
 
@@ -152,9 +148,23 @@ Route::get('/recusdonateurassociation/{id_association}/{id_donateur}',[recuContr
 Route::get('/dons',[donController ::class,'index']);
 Route::get('/dons/{id}',[donController::class,'show']);
 Route::get('/mesdons/{id_donateur}',[donController::class,'getmesdons']);
+Route::get('/donsSimilaires/{id}/{category}',[donController::class,'getDonSimilaire']);
+Route::get('/donsfiltreByCategory/{category}',[donController::class,'getDonFiltreByCategory']);
+Route::get('/donsfiltreByEtat/{etat}',[donController::class,'getDonFiltreByEtat']);
+Route::get('/donsfiltreByCategoryAndEtat/{category}/{etat}',[donController::class,'getDonWithCategoryAndEtat']);
 
 Route::get('/appartenances',[appartenirController ::class,'index']);
 Route::get('/appartenances/{id}',[appartenirController ::class,'show']);
 
 Route::get('/appartenances',[appartenirController ::class,'index']);
 Route::get('/appartenances/{id}',[appartenirController ::class,'show']);
+
+Route::get('/medias',[mediascontroller ::class,'index']);
+Route::get('/medias/{id}',[mediascontroller ::class,'show']);
+Route::get('/medias/donateur/{id}',[mediascontroller ::class,'showDonateurMedia']);
+Route::get('/medias/annonce/{id}',[mediascontroller ::class,'showAnnonceMediaMedia']);
+Route::get('/medias/association/{id}',[mediascontroller ::class,'showAssociationMedia']);
+Route::get('/medias/don/{id}',[mediascontroller ::class,'showDonMedia']);
+Route::get('/medias/mouvement/{id}',[mediascontoller::class,'showMouvementMedia']);
+Route::post('/medias',[mediascontroller ::class,'store']);
+Route::delete('/medias/{id}',[mediascontroller ::class,'destroy']);
