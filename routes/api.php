@@ -35,15 +35,14 @@ Route::group(['middleware'=>['auth:sanctum']],function(){
     Route::put('/donateurs/{id}',[donateurController::class,'update']);
     Route::delete('/donateurs/{id}',[donateurController::class,'destroy']);
 
-    
+    Route::get('/mesMessages/{id}',[messagesController::class,'showMyMessages']);
     Route::get('/messages',[messageController::class,'index']);
     Route::get('/messages/{id}',[messageController::class,'show']);
-    Route::get('/conversation/{id_sendr}-{id_reicv}',[messageController::class,'getConversation']);
+    Route::get('/conversationDon/{id_donateur}-{id_reicv}-{id_don}',[messageController::class,'getConversatioDon']);
     Route::post('/messages',[messageController::class,'store']);
     Route::put('/messages/{id}',[messageController::class,'update']);
     Route::delete('/messages/{id}',[messageController::class,'destroy']);
-
-
+    
     Route::post('/annonces',[annonceController::class,'store']);
     Route::put('/annonces/{id}',[annonceController::class,'update']);
     Route::delete('/annonces/{id}',[annonceController::class,'destroy']);
@@ -52,8 +51,7 @@ Route::group(['middleware'=>['auth:sanctum']],function(){
     Route::put('/demandes/{id}',[demandeController::class,'update']);
     Route::delete('/demandes/{id}',[demandeController::class,'destroy']);
     
-
-
+    
     Route::post('/besoins',[besoinController::class,'store']);
     Route::put('/besoins/{id}',[besoinController::class,'update']);
     Route::delete('/besoins/{id}',[besoinController::class,'destroy']);
@@ -72,7 +70,7 @@ Route::group(['middleware'=>['auth:sanctum']],function(){
     Route::put('/recus/{id}',[recuController::class,'update']);
     Route::delete('/recus/{id}',[recuController::class,'destroy']);
 
-
+    
     Route::post('/dons',[donController::class,'store']);
     Route::put('/dons/{id}',[donController::class,'update']);
     Route::delete('/dons/{id}',[donController::class,'destroy']);
@@ -86,7 +84,11 @@ Route::group(['middleware'=>['auth:sanctum']],function(){
   
 });
 /*---------------------------------------------PUBLIC ROUTES ----------------------------------------------------------------*/
+Route::get('/salonsDiscussionsDon/{myid}',[messageController::class,'getDiscussionsDon']);
 
+
+Route::post('/reserverDon',[donController::class,'reserver']);
+Route::get('/nbreservations/{id_don}',[donController::class,'nbreservations']);
 Route::post('/test',[donController::class,'test']);
 /*Authentication*/
 Route::get('/validate-token', function () {

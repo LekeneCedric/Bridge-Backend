@@ -49,4 +49,7 @@ class Donateur extends Model
     public function participer(){
         return $this->hasMany(participer::class);
     }
+    public function reserver(){
+        return $this->hasMany(reserver::class);
+    }
 }

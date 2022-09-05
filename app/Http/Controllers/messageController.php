@@ -12,9 +12,36 @@ class messageController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function getConversation($id_sendr,$id_reicv){
+    public function getDiscussionsDon($myid){
+        $salons=[];
+        $temp = [];
+        $messages = Message::where('donateur_id',$myid)->orwhere('receiver_id',$myid)->get();
+        foreach($messages as $message){
+         if(in_array($message->don_id,$temp)){
+            continue;
+         }
+         else{
+            array_push($temp,$message->don_id);
+            $elt = (object) array(
+                'id_don' => $message->don_id,
+                'id_donateur'=>$message->donateur_id,
+                'id_receiver' => $message->receiver_id,
+                'id_demande' => $message->demande_id
+            );
+            array_push($salons,$elt);
+         }
+        }
         
-        $messages = Message::where('donateur_id','=',$id_sendr,'AND','receiver_id','=',$id_reicv)->orWhere('receiver_id','=',$id_sendr,'and','donateur_id','=',$id_reicv)->get();
+        return response()->json($salons);
+    }
+    public function showMyMessages($myId){
+        $message = Message::where('donateur_id',$myId)->orwhere('receiver_id',$myId)->get();
+    }
+    public function getConversatioDon($id_sendr,$id_reicv,$id_don){
+        
+        $messages = Message::where('donateur_id','=',$id_sendr,'AND','receiver_id','=',$id_reicv)
+        ->orWhere('receiver_id','=',$id_sendr,'and','donateur_id','=',$id_reicv)
+        ->where('don_id','=',$id_don)->get();
         // $result = array_merge(...$messages1,...$messages2);
         return response()->json([
             'message' => 'conversation get successfully',
@@ -56,15 +83,9 @@ class messageController extends Controller
             return response()->json($validator->errors(), 400);
         }
         $Message = Message::create(
-            array_merge($validator->validated()             
-        ));
+            array_merge($request->all()));
 
-        return response()->json(
-            [
-                'message'=>'Message created successfully',
-                'donateur'=>$Message
-            ],200
-        );
+        return response()->json($Message);
     }
 
     /**

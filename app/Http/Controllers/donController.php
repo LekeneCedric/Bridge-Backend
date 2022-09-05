@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Don;
+use App\Models\Message;
+use App\Models\reserver;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 class donController extends Controller
@@ -12,11 +14,47 @@ class donController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function test(Request $request){
-        $res = $request->category;
+   
+    public function nbreservations($iddon){
+     $reservation = reserver::where('don_id', $iddon)->get();
+     if(count($reservation)<1){
+        return response()->json([
+            'message'=>'Aucune reservation pour ce don'
+        ]);
+     }
+     else{
+        return response()->json([
+            'nombre'=>count($reservation),
+            'reservations'=>$reservation
+        ]);
+     }
+    }
+    public function reserver(Request $request)
+    {
+        $condition = reserver::where('don_id',$request->don_id)->where('donateur_id',$request->donateur_id)->get();
+        if(count($condition)<1){
+        $validator=Validator::make($request->all(),[
+            'donateur_id'=>'required',
+            'don_id'=>'required'
+            ]);
+            if($validator->fails()){
+                return response()->json($validator->errors(), 400);
+            }
+     $don = Don::find($request->don_id);
+     $don->nombre_reserve = $don->nombre_reserve+1;
+     $don->save();
+        $reservation = reserver::create(array_merge($request->all()));
         return response()->json(
-            ['req'=> $res]
+            [
+                'message'=>'nouvelle reservation',   
+            ],200
         );
+     return response()->json($reservation,200);}
+     else{
+        return response()->json([
+            'message'=>'reservation existante'
+        ]);
+     }
     }
     public function getDonSimilaire($id,$category){
         $don = Don::where('category',$category)->where('id','!=',$id)->get();
