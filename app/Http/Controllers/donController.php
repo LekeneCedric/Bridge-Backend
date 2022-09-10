@@ -29,6 +29,36 @@ class donController extends Controller
         ]);
      }
     }
+    public function isreservForMe($id_don,$idUser){
+    $reserv = reserver::where('don_id',$id_don)->where('donateur_id',$idUser)->get();
+    if(count($reserv)>0){
+        return response()->json([
+            'message'=>'oui'
+        ]);
+    }
+    else{
+        return response()->json([
+            'message'=>'non'
+        ]);
+    }
+    }
+    public function annulerReservation(Request $request){
+        $reservation = reserver::where('don_id',$request->don_id)->where('donateur_id',$request->donateur_id)->get();
+        if(count($reservation)>0){
+            $id=  $reservation[0]->don->id;
+          $don = Don::find($id);
+          $don->nombre_reserve = $don->nombre_reserve-1;
+          $don->save();
+          reserver::find($reservation[0]->id)->delete();  
+          
+          
+        }
+        else{
+            return response()->json([
+                'message'=>'aucune reservation'
+            ],400);
+        }
+    }
     public function reserver(Request $request)
     {
         $condition = reserver::where('don_id',$request->don_id)->where('donateur_id',$request->donateur_id)->get();
@@ -57,7 +87,7 @@ class donController extends Controller
      }
     }
     public function getDonSimilaire($id,$category){
-        $don = Don::where('category',$category)->where('id','!=',$id)->get();
+        $don = Don::where('category',$category)->where('id','!=',$id)->where('disponible','<',1)->get();
         if(is_null($don)){
             return response()->json([
                 'message' => 'Not Found',
@@ -133,7 +163,7 @@ class donController extends Controller
     }
     public function index()
     {
-        $dons = Don::paginate(6);
+        $dons = Don::where('disponible','<',1)->paginate(6);
         foreach($dons as $don){
             $don->media = $don->media;
             $don->donateur = $don->donateur;
@@ -165,7 +195,7 @@ class donController extends Controller
         'category'=>'required',
         'etat'=>'required',
         'adresse'=>'required',
-        'description'=>'required',
+        'description'=>'required', 
         'longitude'=>'required',
         'latitude'=>'required'
         ]);
@@ -230,7 +260,7 @@ class donController extends Controller
         }
         $Don->update($request->all());
         return response()->json([
-            'Don'=>'modification successfully',
+            'message'=>'modification successfully',
             'Don'=>$Don
         ],200);
     }

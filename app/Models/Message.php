@@ -15,7 +15,9 @@ class Message extends Model
         'contenu',
         'vu',
         'demande_id',
-        'don_id'
+        'don_id',
+        'sender',
+        'receiver'
 
     ];
     protected $dates = ['created_at','updated_at'];
@@ -24,9 +26,9 @@ class Message extends Model
         return $this->belongsTo(Donateur::class);
     }
     public function demande(){
-        return $this->belongTo(Demande::class);
+        return $this->belongsTo(Demande::class);
     }
     public function don(){
-        return $this->belongTo(Don::class);
+        return $this->belongsTo(Don::class);
     }
 }

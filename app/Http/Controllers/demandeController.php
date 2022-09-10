@@ -14,7 +14,7 @@ class demandeController extends Controller
      */
     public function index()
     {
-        $demandes = Demande::all();
+        $demandes = Demande::where('resolu','<',1)->get();
         foreach ($demandes as $demande){
             $demande->donateur= $demande->donateur;
             $demande->donateur->photoprofil = $demande->donateur->media;

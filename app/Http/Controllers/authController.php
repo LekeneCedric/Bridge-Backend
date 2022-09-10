@@ -21,7 +21,7 @@ class authController extends Controller
             'name'=>'required|string',
             'surname'=>'required|string',
             'email'=>'required|string|email|max:100|unique:donateurs',
-            'date_naissance'=>'required|date',
+            'date_naissance',
             'sexe'=>'required',
             'contact'=>'required|int',
             'pays'=>'required|string',

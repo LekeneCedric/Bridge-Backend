@@ -14,6 +14,7 @@ use App\Http\Controllers\messageController;
 use App\Http\Controllers\mouvementController;
 use App\Http\Controllers\participerController;
 use App\Http\Controllers\recuController;
+use App\Http\Controllers\reserverController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -30,7 +31,7 @@ use Illuminate\Support\Facades\Route;
 
 /*---------------------------------------------PROTECTED ROUTES ----------------------------------------------------------------*/
 Route::group(['middleware'=>['auth:sanctum']],function(){
-    
+    Route::post('/login');
     Route::post('/auth/logout',[authController::class,'logout']);
     Route::put('/donateurs/{id}',[donateurController::class,'update']);
     Route::delete('/donateurs/{id}',[donateurController::class,'destroy']);
@@ -38,10 +39,17 @@ Route::group(['middleware'=>['auth:sanctum']],function(){
     Route::get('/mesMessages/{id}',[messagesController::class,'showMyMessages']);
     Route::get('/messages',[messageController::class,'index']);
     Route::get('/messages/{id}',[messageController::class,'show']);
-    Route::get('/conversationDon/{id_donateur}-{id_reicv}-{id_don}',[messageController::class,'getConversatioDon']);
+    Route::get('/messages',[messageController::class,'index']);
+    Route::get('/interessesDon/{id_don}',[messageController::class,'interesses']);
+    Route::get('/salonsDiscussionsDon/{myid}',[messageController::class,'getDiscussionsDon']);
+    Route::get('/salonsDiscussionsDemande/{myid}',[messageController::class,'getDiscussionsDemandes']);
+    Route::get('/conversationDon/{id_donateur}-{id_reicv}-{id_don}',[messageController::class,'getConversationDon']);
+    Route::get('/conversationDemande/{id_donateur}-{id_reicv}-{id_demande}',[messageController::class,'getConversationDemande']);
+    
     Route::post('/messages',[messageController::class,'store']);
     Route::put('/messages/{id}',[messageController::class,'update']);
     Route::delete('/messages/{id}',[messageController::class,'destroy']);
+    Route::get('/lastMessage/{id_donateur}-{id_receiver}-{id_don}',[messageController::class,'getLastMessage']);
     
     Route::post('/annonces',[annonceController::class,'store']);
     Route::put('/annonces/{id}',[annonceController::class,'update']);
@@ -74,18 +82,20 @@ Route::group(['middleware'=>['auth:sanctum']],function(){
     Route::post('/dons',[donController::class,'store']);
     Route::put('/dons/{id}',[donController::class,'update']);
     Route::delete('/dons/{id}',[donController::class,'destroy']);
+    Route::get('/isreserv/{id_don}-{idUser}',[donController::class,'isreservForMe']);
+    Route::post('/annulerReservation',[donController::class,'annulerReservation']);
+    Route::post('/receptionnerDon',[donController::class,'receptionnerDon']);
 
     Route::post('/appartenances',[appartenirController::class,'store']);
     Route::delete('/appartenances/{id}',[appartenirController::class,'destroy']);
 
     Route::post('/participations',[participerController::class,'store']);
     Route::delete('/participations/{id}',[participerController::class,'destroy']);
-
+    
+    Route::get('/reservations',[reserverController ::class,'index']);
   
 });
 /*---------------------------------------------PUBLIC ROUTES ----------------------------------------------------------------*/
-Route::get('/salonsDiscussionsDon/{myid}',[messageController::class,'getDiscussionsDon']);
-
 
 Route::post('/reserverDon',[donController::class,'reserver']);
 Route::get('/nbreservations/{id_don}',[donController::class,'nbreservations']);

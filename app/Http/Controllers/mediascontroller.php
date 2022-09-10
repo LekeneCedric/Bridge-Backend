@@ -24,7 +24,7 @@ class mediascontroller extends Controller
                $filePath = $request->file('file')->storeAs('medias', $fileName, 'public');
                $media = media::create(array_merge($request->all(),
                [
-                   'filePath'=>$request->file('file')->storeAs('medias', $fileName, 'public'),
+                   'filePath'=>$filePath,
                    'extension'=>$extension,
                    'fileName'=>$fileName,
                ]));

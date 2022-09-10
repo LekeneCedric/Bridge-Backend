@@ -37,6 +37,6 @@ class Don extends Model
         return $this->hasMany(Message::class);
     }
     public function reserver(){
-        return $this->hasMany(reserver::class);
+        return $this->hasOne(reserver::class);
     }
 }
