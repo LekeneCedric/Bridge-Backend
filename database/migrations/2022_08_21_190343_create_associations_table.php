@@ -21,14 +21,14 @@ class CreateAssociationsTable extends Migration
             $table->string('pays');
             $table->string('ville');
             $table->string('contact');
-            $table->string('email');
             $table->string('adresse');
-            $table->string('siteweb');
             $table->string('numero_contribuable')->nullable();
             $table->string('password');
             $table->string('nom_responsable');
             $table->float('longitude')->nullable();
             $table->float('latitude')->nullable();
+            $table->boolean('verifie')->default(false);
+            $table->boolean('valide')->default(false);
             $table->timestamps();
         });
     }

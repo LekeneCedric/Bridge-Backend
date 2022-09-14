@@ -21,6 +21,7 @@ class Donateur extends Model
         'pays',
         'ville',
         'password',
+        'verifie'
         
     ];
     protected $dates = ['created_at','updated_at'];
@@ -51,5 +52,8 @@ class Donateur extends Model
     }
     public function reserver(){
         return $this->hasMany(reserver::class);
+    }
+    public function social(){
+        return $this->hasMany(social::class);
     }
 }

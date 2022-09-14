@@ -15,8 +15,8 @@ class CreateReserversTable extends Migration
     {
         Schema::create('reservers', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->foreignId('don_id')->constrained('dons');
-            $table->foreignId('donateur_id')->constrained('donateurs');
+            $table->foreignId('don_id')->constrained('dons')->onDelete('cascade');
+            $table->foreignId('donateur_id')->constrained('donateurs')->onDelete('cascade');
             $table->timestamps();
         });
     }

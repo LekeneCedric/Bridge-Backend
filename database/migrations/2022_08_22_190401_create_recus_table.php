@@ -16,9 +16,9 @@ class CreateRecusTable extends Migration
         Schema::create('recus', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('contenu');
-            $table->foreignId('don_id')->constrained('dons');
-            $table->foreignId('association_id')->constrained('associations');
-            $table->foreignId('donateur_id')->constrained('donateurs');
+            $table->foreignId('don_id')->constrained('dons')->onDelete('cascade');
+            $table->foreignId('association_id')->constrained('associations')->onDelete('cascade');
+            $table->foreignId('donateur_id')->constrained('donateurs')->onDelete('cascade');
             $table->timestamps();
         });
     }

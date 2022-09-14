@@ -15,8 +15,8 @@ class CreateParticipersTable extends Migration
     {
         Schema::create('participers', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->foreignId('mouvement_id')->constrained('mouvements');
-            $table->foreignId('donateur_id')->constrained('donateurs');
+            $table->foreignId('mouvement_id')->constrained('mouvements')->onDelete('cascade');
+            $table->foreignId('donateur_id')->constrained('donateurs')->onDelete('cascade');
             $table->timestamps();
         });}
 

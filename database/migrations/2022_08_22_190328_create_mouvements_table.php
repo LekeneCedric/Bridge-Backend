@@ -15,7 +15,7 @@ class CreateMouvementsTable extends Migration
     {
         Schema::create('mouvements', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->foreignId('association_id')->constrained('associations');
+            $table->foreignId('association_id')->constrained('associations')->onDelete('cascade');
             $table->string('category');
             $table->string('intitule');
             $table->date('date_rencontre');

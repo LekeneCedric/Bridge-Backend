@@ -24,6 +24,7 @@ class CreateDonateursTable extends Migration
             $table->string('pays');
             $table->string('ville');
             $table->string('password');
+            $table->boolean('verifie')->default(false);
             $table->timestamps();
         });
     }

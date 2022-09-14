@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMediaTable extends Migration
+class CreateSocialsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,12 @@ class CreateMediaTable extends Migration
      */
     public function up()
     {
-        Schema::create('media', function (Blueprint $table) {
+        Schema::create('socials', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->foreignId('association_id')->nullable()->default(null)->references('id')->on('associations')->onDelete('cascade');
-            $table->foreignId('annonce_id')->nullable()->default(null)->references('id')->on('annonces')->onDelete('cascade');
             $table->foreignId('donateur_id')->nullable()->default(null)->references('id')->on('donateurs')->onDelete('cascade');
-            $table->foreignId('don_id')->nullable()->default(null)->references('id')->on('dons')->onDelete('cascade');
-            $table->foreignId('mouvement_id')->nullable()->default(null)->references('id')->on('mouvements')->onDelete('cascade');
-            $table->string('filePath');
-            $table->string('extension');
-            $table->string('fileName');
+            $table->string('name');
+            $table->string('link');
             $table->timestamps();
         });
     }
@@ -34,6 +30,6 @@ class CreateMediaTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('media');
+        Schema::dropIfExists('socials');
     }
 }

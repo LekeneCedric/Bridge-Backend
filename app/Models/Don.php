@@ -16,6 +16,7 @@ class Don extends Model
         'category',
         'etat',
         'adresse',
+        'disponibilite',
         'description',
         'longitude',
         'latitude',

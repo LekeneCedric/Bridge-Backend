@@ -15,14 +15,14 @@ class CreateMessagesTable extends Migration
     {
         Schema::create('messages', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->foreignId('donateur_id')->constrained('donateurs');
+            $table->foreignId('donateur_id')->constrained('donateurs')->onDelete('cascade');
             $table->integer('receiver_id');
             $table->text('contenu');
             $table->integer('sender');
             $table->integer('receiver');
             $table->integer('vu')->default(0);
-            $table->foreignId('demande_id')->nullable()->constrained('demandes');
-            $table->foreignId('don_id')->nullable()->constrained('dons');
+            $table->foreignId('demande_id')->nullable()->constrained('demandes')->onDelete('cascade');
+            $table->foreignId('don_id')->nullable()->constrained('dons')->onDelete('cascade');
             $table->timestamps();
         });
     }

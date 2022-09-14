@@ -87,7 +87,7 @@ class donController extends Controller
      }
     }
     public function getDonSimilaire($id,$category){
-        $don = Don::where('category',$category)->where('id','!=',$id)->where('disponible','<',1)->get();
+        $don = Don::where('category','=',$category)->where('id','!=',$id)->where('disponible','<',1)->get();
         if(is_null($don)){
             return response()->json([
                 'message' => 'Not Found',
@@ -196,6 +196,7 @@ class donController extends Controller
         'etat'=>'required',
         'adresse'=>'required',
         'description'=>'required', 
+        'disponibilite'=>'required',
         'longitude'=>'required',
         'latitude'=>'required'
         ]);

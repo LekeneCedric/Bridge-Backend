@@ -15,7 +15,7 @@ class CreateDemandesTable extends Migration
     {
         Schema::create('demandes', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->foreignId('donateur_id')->constrained('donateurs');
+            $table->foreignId('donateur_id')->constrained('donateurs')->onDelete('cascade');
             $table->string('title');
             $table->string('contenu');
             $table->string('adresse');

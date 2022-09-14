@@ -15,7 +15,7 @@ class CreateAnnoncesTable extends Migration
     {
         Schema::create('annonces', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->foreignId('association_id')->constrained('associations');
+            $table->foreignId('association_id')->constrained('associations')->onDelete('cascade');
             $table->string('title');
             $table->string('intitule');
             $table->integer('nbvue');

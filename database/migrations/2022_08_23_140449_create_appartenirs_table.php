@@ -15,8 +15,8 @@ class CreateAppartenirsTable extends Migration
     {
         Schema::create('appartenirs', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->foreignId('association_id')->constrained('associations');
-            $table->foreignId('donateur_id')->constrained('donateurs');
+            $table->foreignId('association_id')->constrained('associations')->onDelete('cascade');
+            $table->foreignId('donateur_id')->constrained('donateurs')->onDelete('cascade');
             $table->timestamps();
         });
        

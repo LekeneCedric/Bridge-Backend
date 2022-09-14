@@ -16,14 +16,14 @@ class Association extends Model
         'pays',
         'ville',
         'contact',
-        'email',
         'adresse',
-        'siteweb',
         'numero_contribuable',
         'nom_responsable',
         'password',
         'longitude',
-        'latitude'
+        'latitude',
+        'verifie',
+        'valide'
     ];
     protected $dates = ['created_at', 'updated_at'];
     public function annonce(){
@@ -41,5 +41,8 @@ class Association extends Model
 
     public function media(){
         return $this->hasMany(media::class);
+    }
+    public function social(){
+        return $this->hasMany(social::class);
     }
 }

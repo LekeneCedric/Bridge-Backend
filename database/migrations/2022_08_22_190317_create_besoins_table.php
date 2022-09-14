@@ -15,7 +15,7 @@ class CreateBesoinsTable extends Migration
     {
         Schema::create('besoins', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->foreignId('association_id')->constrained('associations');
+            $table->foreignId('association_id')->constrained('associations')->onDelete('cascade');
             $table->string('contenu');
             $table->string('category');
             $table->integer('attente')->default(0);
