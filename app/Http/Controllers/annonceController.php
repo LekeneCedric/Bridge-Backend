@@ -14,8 +14,12 @@ class annonceController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        return response()->json(Annonce::all(),200);
+    {  $annonces = Annonce::all();
+        foreach($annonces as $annonce){
+            $annonce->association->media;
+            $annonce->media;
+        }
+        return response()->json($annonces,200);
     }
 
     /**
@@ -71,6 +75,8 @@ class annonceController extends Controller
                 'Annonce'=>'not Found!'
             ],200);
         }
+        $Annonce->association->media;
+        $Annonce->media;
         return response()->json($Annonce,200);
     }
     public function showAnnoncesAssociation($id){

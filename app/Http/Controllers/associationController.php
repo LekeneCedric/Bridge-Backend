@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\appartenir;
 use App\Models\Association;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -14,7 +15,33 @@ class associationController extends Controller
      */
     public function index()
     {
-        $result = Association::paginate(10);
+        $result = Association::all();
+        foreach($result as $res){
+        $appartenances = appartenir::where('association_id', $res->id)->get();
+        $donateurs = [];
+        $id_attente = [];
+        $id_donateurs = [];
+        foreach($appartenances as $appart){
+            if($appart->valide ==1)
+            {
+                array_push($donateurs,$appart->donateur);
+                array_push($id_donateurs,$appart->donateur->id);
+            } 
+            else{
+                
+                array_push($id_attente,$appart->donateur->id);
+            }
+        }
+        $res->idDonateurs = $id_donateurs;
+        $res->membres = $donateurs;
+        $res->attenteId = $id_attente;
+        $res->annonce;
+        $res->mouvement;
+        $res->don;
+        $res->recu;
+        $res->media;
+        $res->social;
+        }
         //
         return response()->json($result,200);
     }
@@ -44,7 +71,7 @@ class associationController extends Controller
             'category'=>'required',
             'pays'=>'required',
             'ville'=>'required',
-            'contact'=>'required',
+            'contact'=>'required',         
             'adresse'=>'required',
             'numero_contribuable',
             'password'=>'required|string|confirmed',
@@ -85,6 +112,33 @@ class associationController extends Controller
                 'message'=>'Not Found!'
             ],200);
         }
+        $appartenances = appartenir::where('association_id', $id)->get();
+        $donateurs = [];
+        $id_attente = [];
+        $attente=[];
+        $id_donateurs = [];
+        foreach($appartenances as $appart){
+            if($appart->valide ==1)
+            {
+                array_push($donateurs,$appart->donateur);
+                array_push($id_donateurs,$appart->donateur->id);
+            } 
+            else{
+                array_push($attente,$appart->donateur);
+                array_push($id_attente,$appart->donateur->id);
+            }
+             
+        }
+        $Association->idDonateurs = $id_donateurs;
+        $Association->membres = $donateurs;
+        $Association->attenteId = $id_attente;
+        $Association->attentes = $attente;
+        $Association->annonce;
+        $Association->mouvement;
+        $Association->don;
+        $Association->recu;
+        $Association->media;
+        $Association->social;
         return response()->json($Association,200);
     }
 

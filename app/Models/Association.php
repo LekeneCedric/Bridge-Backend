@@ -9,21 +9,21 @@ class Association extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'id',
+         'id',
         'type',
-        'name',
+         'name',
         'category',
-        'pays',
-        'ville',
-        'contact',
-        'adresse',
-        'numero_contribuable',
-        'nom_responsable',
-        'password',
-        'longitude',
-        'latitude',
-        'verifie',
-        'valide'
+         'pays',
+         'ville',
+         'contact',
+         'adresse',
+         'numero_contribuable',
+         'nom_responsable',
+         'password',
+         'longitude',
+         'latitude',
+         'verifie',
+         'valide'
     ];
     protected $dates = ['created_at', 'updated_at'];
     public function annonce(){

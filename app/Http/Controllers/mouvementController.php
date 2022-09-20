@@ -34,11 +34,16 @@ class mouvementController extends Controller
 
         array_push($response,$mouvement);
        }
-       return response()->json($response);
+       return response()->json($response,200);
     }
     public function index()
     {
-        return response()->json(Mouvement::all(),200);
+        $mouvements = Mouvement::all();
+        foreach($mouvements as $mouvement){
+            $mouvement->media;
+            $mouvement->association->media;
+        }
+        return response()->json($mouvements,200);
     }
 
     /**
@@ -98,7 +103,10 @@ class mouvementController extends Controller
      */
     public function show($id)
     {
-        //
+        $mouvement = Mouvement::where('id', $id)->all();
+        $mouvement->media;
+        $mouvement->association->media;
+        return response()->json($mouvement,200);
     }
 
     /**
@@ -149,10 +157,10 @@ class mouvementController extends Controller
                 'message' => 'No Mouvement found !'
             ]);
         }
-        $mouvement->destroy();
+        $mouvment = Mouvement::destroy($id);
         return response()->json([
             'message' => 'Mouvement deleted !',
-            'mouvement' => $mouvement
+            'mouvement' => $mouvment
         ]);
     }
 }

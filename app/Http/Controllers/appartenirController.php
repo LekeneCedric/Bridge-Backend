@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\appartenir;
+use App\Models\Donateur;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -35,11 +36,65 @@ class appartenirController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    public function association_member_list($id_association){
+        $appartenances = appartenir::where('association_id', $id_association)->get();
+        $member=[];
+        foreach($appartenances as $appart){
+          array_push($member, $appart->donateur->media);
+        }
+        
+        return response()->json($appartenances);        
+    }
+    public function non_association_member_list($id_association){
+        $appartenances = appartenir::where('association_id', $id_association)->get();
+        $users = Donateur::all();
+        $members=[];
+        $non_members=[];
+        foreach($appartenances as $appart){
+            array_push($members,$appart['donateur_id']);
+        }
+        foreach($users as $user){
+         in_array($user->id,$members)?null:array_push($non_members,$user);
+        }
+        return response()->json($non_members);
+
+    }
+    public function isMemberAssociation($id,$id_association){
+        $appartenance = appartenir::where('association_id', $id_association)->where('donateur_id',$id)->get();
+        if(count($appartenance)==0){
+         return response()->json([
+            'message'=>'false'
+         ]);
+        }
+        else if (count($appartenance)>0 && $appartenance[0]->valide==1)
+        {
+            return response()->json([
+                'message'=>'true'
+             ]);
+        }
+        else if (count($appartenance)>0 && $appartenance[0]->valide==0)
+        {
+            return response()->json([
+                'message'=>'attente'
+             ]);
+        }
+    }
+    public function rejectAssociationMember($id,$id_association){
+        $appartenance = appartenir::where('association_id',$id_association)->where('donateur_id',$id)->delete();
+        return response()->json($appartenance);
+    }
+    public function addAssociationMember($id,$id_association){
+      $appartenance = appartenir::where('association_id',$id_association)->where('donateur_id',$id)->update([
+        'valide'=>1
+       ]);
+       return response()->json($appartenance);
+    }
     public function store(Request $request)
     {
         $validator=Validator::make($request->all(),[
             'association_id'=>'required',
             'donateur_id'=>'required',
+            'valide'=>'required',
         ]);
 
         if($validator->fails()){

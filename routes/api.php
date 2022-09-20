@@ -167,6 +167,11 @@ Route::get('/donsfiltreByCategoryAndEtat/{category}/{etat}',[donController::clas
 
 Route::get('/appartenances',[appartenirController ::class,'index']);
 Route::get('/appartenances/{id}',[appartenirController ::class,'show']);
+Route::get('/isMemberAssociation/{id_donateur}/{id_association}',[appartenirController ::class,'isMemberAssociation']);
+Route::post('/addAssociationMember/{id_member}/{id_association}',[appartenirController ::class,'addAssociationMember']);
+Route::post('/rejectAssociationMember/{id_member}/{id_association}',[appartenirController ::class,'rejectAssociationMember']);
+Route::get('/non_association_member_list/{id_association}',[appartenirController ::class,'non_association_member_list']);
+Route::get('/association_member_list/{id_association}',[appartenirController ::class,'association_member_list']);
 
 Route::get('/appartenances',[appartenirController ::class,'index']);
 Route::get('/appartenances/{id}',[appartenirController ::class,'show']);

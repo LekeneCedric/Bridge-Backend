@@ -11,7 +11,8 @@ class appartenir extends Model
     protected $fillable = [
         'id',
         'association_id',
-        'donateur_id'
+        'donateur_id',
+        'valide'
     ];
     protected $dates = ['created_at','updated_at'];
     public function association(){

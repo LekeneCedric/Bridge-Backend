@@ -17,6 +17,7 @@ class CreateAppartenirsTable extends Migration
             $table->bigIncrements('id');
             $table->foreignId('association_id')->constrained('associations')->onDelete('cascade');
             $table->foreignId('donateur_id')->constrained('donateurs')->onDelete('cascade');
+            $table->integer('valide')->default(0);
             $table->timestamps();
         });
        
