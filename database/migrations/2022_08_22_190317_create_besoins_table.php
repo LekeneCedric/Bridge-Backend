@@ -20,6 +20,8 @@ class CreateBesoinsTable extends Migration
             $table->string('category');
             $table->integer('attente')->default(0);
             $table->integer('resolu')->default(0);
+            $table->integer('quantite');
+            $table->integer('quantite_actuelle')->default(0);
             $table->timestamps();
         });
     }

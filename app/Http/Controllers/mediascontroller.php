@@ -44,6 +44,7 @@ class mediascontroller extends Controller
 
     public function show($id){
       $media = media::find($id);
+      return response()->json($media);
     }
 
     public function destroy($id){

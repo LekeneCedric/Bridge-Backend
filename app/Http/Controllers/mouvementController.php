@@ -24,14 +24,16 @@ class mouvementController extends Controller
         }
         $response=[];
        foreach($mouvements as $mouvement){
-        $mouvement->association = $mouvement->association;
+        $mouvement->media;
+        $mouvement->association->media;
         $donateurs=[];
         $participants = participer::where('mouvement_id',$mouvement->id)->get();
+
         foreach($participants as $participant){
             array_push($donateurs,$participant->donateur);
         }
         $mouvement->donateurs = $donateurs;
-
+        $mouvement->nbparticipants = count($participants);
         array_push($response,$mouvement);
        }
        return response()->json($response,200);
@@ -42,8 +44,15 @@ class mouvementController extends Controller
         foreach($mouvements as $mouvement){
             $mouvement->media;
             $mouvement->association->media;
-        }
-        return response()->json($mouvements,200);
+            $donateurs=[];
+            $participants = participer::where('mouvement_id',$mouvement->id)->get();
+            foreach($participants as $participant){
+                array_push($donateurs,$participant->donateur);
+            }
+            $mouvement->nbparticipants = count($donateurs);
+            $mouvement->participants = $donateurs;
+            }
+            return response()->json($mouvements,200);
     }
 
     /**
@@ -103,10 +112,22 @@ class mouvementController extends Controller
      */
     public function show($id)
     {
-        $mouvement = Mouvement::where('id', $id)->all();
-        $mouvement->media;
-        $mouvement->association->media;
-        return response()->json($mouvement,200);
+        $Mouvement = Mouvement::find($id);
+        if(is_null($Mouvement)){
+            return response()->json([
+                'Mouvement'=>'not Found!'
+            ],200);
+        }
+        $donateurs=[];
+        $participants = participer::where('mouvement_id',$id)->get();
+        foreach($participants as $participant){
+            array_push($donateurs,$participant->donateur);
+        }
+        $Mouvement->nbparticipants = count($donateurs);
+        $Mouvement->participants = $donateurs;
+        $Mouvement->association->media;
+        $Mouvement->media;
+        return response()->json($Mouvement,200);
     }
 
     /**

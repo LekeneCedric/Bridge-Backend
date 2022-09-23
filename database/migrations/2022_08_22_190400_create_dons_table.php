@@ -15,7 +15,6 @@ class CreateDonsTable extends Migration
     {
         Schema::create('dons', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->foreignId('association_id')->nullable()->constrained('associations')->onDelete('cascade');
             $table->foreignId('donateur_id')->constrained('donateurs')->onDelete('cascade');
             $table->string('titre');
             $table->string('category');

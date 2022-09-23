@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAssociationsTable extends Migration
+class CreateAssoDonsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,23 +13,20 @@ class CreateAssociationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('associations', function (Blueprint $table) {
+        Schema::create('asso_dons', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('type');
-            $table->string('name');
+            $table->foreignId('association_id')->constrained('associations')->onDelete('cascade');
+            $table->foreignId('donateur_id')->constrained('donateurs')->onDelete('cascade');
+            $table->foreignId('besoin_id')->nullable()->constrained('besoins')->onDelete('cascade');
+            $table->string('titre',50);
             $table->string('category');
-            $table->string('pays');
-            $table->string('ville');
-            $table->string('contact');
+            $table->string('etat');
             $table->string('adresse');
-            $table->string('numero_contribuable')->nullable();
-            $table->string('password');
-            $table->string('nom_responsable');
-            $table->string('description',300);
+            $table->text('description');
             $table->float('longitude')->nullable();
             $table->float('latitude')->nullable();
             $table->boolean('verifie')->default(false);
-            $table->boolean('valide')->default(false);
+            $table->boolean('valide')->default(false);            
             $table->timestamps();
         });
     }
@@ -41,6 +38,6 @@ class CreateAssociationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('associations');
+        Schema::dropIfExists('asso_dons');
     }
 }

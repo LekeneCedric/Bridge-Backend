@@ -22,6 +22,7 @@ class Association extends Model
          'password',
          'longitude',
          'latitude',
+         'description',
          'verifie',
          'valide'
     ];

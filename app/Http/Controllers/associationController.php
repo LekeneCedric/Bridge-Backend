@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Annonce;
 use App\Models\appartenir;
 use App\Models\Association;
+use App\Models\Mouvement;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 class associationController extends Controller
@@ -13,6 +15,27 @@ class associationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function galerieAssociation($id){
+        $association = Association::find($id);
+        $res = (object) array();
+        $res->Association = $association->media;
+    // Recuperation des images des mouvementss
+        $mouvements = $association->mouvement;
+        $mediaMouv = [];
+        foreach($mouvements as $mouvement){
+          array_push($mediaMouv, $mouvement->media);
+        }
+    // Recuperation des images des annonces 
+        $annonces = $association->annonce;
+        $annonceMouv=[];
+        foreach($annonces as $annonce){
+            array_push($annonceMouv,$annonce->media);
+        }
+
+        $res->Mouvements = $mediaMouv;
+        $res->Annonces = $annonceMouv;
+        return response()->json($res);
+    }
     public function index()
     {
         $result = Association::all();
@@ -37,7 +60,6 @@ class associationController extends Controller
         $res->attenteId = $id_attente;
         $res->annonce;
         $res->mouvement;
-        $res->don;
         $res->recu;
         $res->media;
         $res->social;
@@ -78,6 +100,7 @@ class associationController extends Controller
             'nom_responsable'=>'required',
             'longitude'=>'required',
             'latitude'=>'required',
+            'description'=>'required|string'
         ]);
 
         if($validator->fails()){
@@ -135,7 +158,6 @@ class associationController extends Controller
         $Association->attentes = $attente;
         $Association->annonce;
         $Association->mouvement;
-        $Association->don;
         $Association->recu;
         $Association->media;
         $Association->social;

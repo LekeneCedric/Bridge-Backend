@@ -111,6 +111,10 @@ class besoinController extends Controller
             'association_id'=>'required|int',
             'contenu'=>'required|string',
             'category'=>'required|string',
+            'attente'=>'required',
+            'resolu'=>'required',
+            'quantite'=>'required',
+            'quantite_actuelle'=>'required',
         ]);
 
         if($validator->fails()){

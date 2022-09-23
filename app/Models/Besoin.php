@@ -14,10 +14,15 @@ class Besoin extends Model
         'contenu',
         'category',
         'attente',
-        'resolu'
+        'resolu',
+        'quantite',
+        'quantite_actuelle'
     ];
     protected $dates = ['created_at', 'updated_at'];
     public function association(){
         return $this->belongsTo(Association::class);
+    }
+    public function AssoDon(){
+        return $this->hasMany(AssoDon::class);
     }
 }

@@ -3,11 +3,13 @@
 use App\Http\Controllers\annonceController;
 use App\Http\Controllers\appartenirController;
 use App\Http\Controllers\associationController;
+use App\Http\Controllers\AssoDonController;
 use App\Http\Controllers\authController;
 use App\Http\Controllers\besoinController;
 use App\Http\Controllers\demandeController;
 use App\Http\Controllers\donateurController;
 use App\Http\Controllers\donController;
+use App\Http\Controllers\LikeController;
 use App\Http\Controllers\MediaController;
 use App\Http\Controllers\mediascontroller;
 use App\Http\Controllers\messageController;
@@ -68,10 +70,15 @@ Route::group(['middleware'=>['auth:sanctum']],function(){
     Route::put('/mouvements/{id}',[mouvementController::class,'update']);
     Route::delete('/mouvements/{id}',[mouvementController::class,'destroy']);
 
+    
+    Route::post('/likerAnnonce',[LikeController::class,'liker_annonce']);
+    Route::delete('/dislikeAnnonce/{id_annonce}/{id_donateur}',[LikeController::class,'dislike_annonce']);
+
 
     Route::post('/associations',[associationController::class,'store']);
     Route::put('/associations/{id}',[associationController::class,'update']);
     Route::delete('/associations/{id}',[associationController::class,'destroy']);
+
 
 
     Route::post('/recus',[recuController::class,'store']);
@@ -91,7 +98,8 @@ Route::group(['middleware'=>['auth:sanctum']],function(){
 
     Route::post('/participations',[participerController::class,'store']);
     Route::delete('/participations/{id}',[participerController::class,'destroy']);
-    
+    Route::get('/imParticipate/{myId}/{mouvId}',[participerController::class,'imParticipate']);
+    Route::post('/annulerParticipation/{myId}/{mouvId}',[participerController::class,'annulerParticipation']);
     Route::get('/reservations',[reserverController ::class,'index']);
   
 });
@@ -117,9 +125,15 @@ Route::get('/donateursmouvement/{id_mouvement}',[donateurController::class,'show
 
 /* annonce */
 
-Route::get('/annonces',[annonceController::class,'index']);
-Route::get('/annonces/{id}',[annonceController::class,'show']);
+Route::get('/annonces/{id_donateur}',[annonceController::class,'index']);
+Route::get('/annonces/{id}/{id_donateur}',[annonceController::class,'show']);
 Route::get('/annoncesassociation/{id}',[annonceController::class,'showAnnoncesAssociation']);
+// Route::get('/likeAnnonce/{id}',[annonceController::class,'likeAnnonce']);
+// Route::get('/isLikeAnnonce/{id_annonce}/{id_donateur',[annonceController::class,'isLikeAnnonce']);
+
+/*Likes */
+Route::get('/likes',[LikeController::class,'index']);
+Route::get('/likesAnnonce/{id_annonce}',[LikeController::class,'get_likes_annonce']);
 /* demande */
 
 Route::get('/demandes',[demandeController::class,'index']);
@@ -143,7 +157,7 @@ Route::get('/mouvements/{id}',[mouvementController::class,'show']);
 Route::get('/mouvementsassociation/{id}',[mouvementController::class,'mouvementsassociation']);
 
 /* associations */
-
+Route::get('/galerieAssociation/{id}',[associationController::class,'galerieAssociation']);
 Route::get('/associations',[associationController ::class,'index']);
 Route::get('/associations/{id}',[associationController::class,'show']);
 
@@ -164,6 +178,11 @@ Route::get('/donsSimilaires/{id}/{category}',[donController::class,'getDonSimila
 Route::get('/donsfiltreByCategory/{category}',[donController::class,'getDonFiltreByCategory']);
 Route::get('/donsfiltreByEtat/{etat}',[donController::class,'getDonFiltreByEtat']);
 Route::get('/donsfiltreByCategoryAndEtat/{category}/{etat}',[donController::class,'getDonWithCategoryAndEtat']);
+
+
+Route::get('/assoDons',[AssoDonController::class,'index']);
+Route::get('/assoDonsAssociation/{id}',[AssoAssociationController::class,'AssociationDons']);
+Route::get('/assoDonsAssociationDonateur/{id_association}/{id_donateur}');
 
 Route::get('/appartenances',[appartenirController ::class,'index']);
 Route::get('/appartenances/{id}',[appartenirController ::class,'show']);

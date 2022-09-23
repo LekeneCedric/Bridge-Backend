@@ -35,6 +35,19 @@ class participerController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    public function imParticipate($myId,$mouvid){
+        $result = participer::where('mouvement_id',$mouvid)->where('donateur_id',$myId)->get();
+        if(count($result)<1){
+          return response()->json(['message'=>'non_reserve'],200);
+        }
+        else{
+            return response()->json(['message'=>'reserve'],200);
+        }
+    }
+    public function annulerParticipation($myId,$mouvid){
+        $result = participer::where('mouvement_id',$mouvid)->where('donateur_id',$myId)->delete();
+        return response()->json($result);
+    }
     public function store(Request $request)
     {
         $validator=Validator::make($request->all(),[

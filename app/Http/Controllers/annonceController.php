@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Annonce;
+use App\Models\Like;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
@@ -13,11 +14,36 @@ class annonceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    // public function isLikeAnnonce($id_annonce,$id_donateur){
+    
+    // }
+    // public function likeAnnonce($id_annonce){
+    //     $annonce = Annonce::where('id',$id_annonce)->get();
+    //     $like_actuelle = $annonce[0]->like;
+    //     $like_update = $like_actuelle+1;
+    //     $annonce = Annonce::where('id',$id_annonce)->update([
+    //         'like'=>$like_update
+    //        ]);
+    //        return response()->json($annonce);
+    // }
+
+    public function index($id_donateur)
     {  $annonces = Annonce::all();
         foreach($annonces as $annonce){
             $annonce->association->media;
             $annonce->media;
+            $likes = Like::where('annonce_id',$annonce->id)->get();
+            $nbLike = count($likes);
+            $annonce->nbLikes = $nbLike;
+            $res = Like::where('donateur_id',$id_donateur)->where('annonce_id',$annonce->id)->get();
+            if(count($res) > 0)
+            {
+                $annonce->isLike = true;
+            }
+            else
+            {
+                $annonce->isLike = false;
+            }
         }
         return response()->json($annonces,200);
     }
@@ -67,7 +93,7 @@ class annonceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id,$id_donateur)
     {
         $Annonce = Annonce::find($id);
         if(is_null($Annonce)){
@@ -77,6 +103,18 @@ class annonceController extends Controller
         }
         $Annonce->association->media;
         $Annonce->media;
+        $likes = Like::where('annonce_id',$Annonce->id)->get();
+        $nbLike = count($likes);
+        $Annonce->nbLikes = $nbLike;
+        $res = Like::where('donateur_id',$id_donateur)->where('annonce_id',$Annonce->id)->get();
+        if(count($res) > 0)
+        {
+            $Annonce->isLike = true;
+        }
+        else
+        {
+            $Annonce->isLike = false;
+        }
         return response()->json($Annonce,200);
     }
     public function showAnnoncesAssociation($id){
@@ -85,6 +123,13 @@ class annonceController extends Controller
             return response()->json([
                 'message'=>'Not Found!'
             ]);
+        }
+        foreach($result as $annonce){
+            $annonce->media;
+            $annonce->association->media;
+            $likes = Like::where('annonce_id',$annonce->id)->get();
+            $nbLike = count($likes);
+            $annonce->nbLikes = $nbLike;
         }
         return response()->json($result,200);
     }
