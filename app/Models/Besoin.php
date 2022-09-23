@@ -11,6 +11,7 @@ class Besoin extends Model
     protected $fillable = [
         'id',
         'association_id',
+        'title',
         'contenu',
         'category',
         'attente',

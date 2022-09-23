@@ -18,6 +18,7 @@ class AssoDon extends Model
         'etat',
         'adresse',
         'description',
+        'quantite',
         'longitude',
         'latitude',
         'verifie',
@@ -30,6 +31,10 @@ class AssoDon extends Model
     }
     public function association(){
         return $this->belongsTo(Association::class);
+    }
+
+    public function media(){
+        return $this->hasMany(media::class);
     }
     public function besoin(){
         return $this->belongsTo(Besoin::class);

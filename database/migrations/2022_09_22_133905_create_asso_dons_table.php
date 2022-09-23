@@ -23,6 +23,7 @@ class CreateAssoDonsTable extends Migration
             $table->string('etat');
             $table->string('adresse');
             $table->text('description');
+            $table->integer('quantite');
             $table->float('longitude')->nullable();
             $table->float('latitude')->nullable();
             $table->boolean('verifie')->default(false);

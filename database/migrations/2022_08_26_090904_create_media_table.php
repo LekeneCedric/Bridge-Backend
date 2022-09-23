@@ -20,6 +20,7 @@ class CreateMediaTable extends Migration
             $table->foreignId('donateur_id')->nullable()->default(null)->references('id')->on('donateurs')->onDelete('cascade');
             $table->foreignId('don_id')->nullable()->default(null)->references('id')->on('dons')->onDelete('cascade');
             $table->foreignId('mouvement_id')->nullable()->default(null)->references('id')->on('mouvements')->onDelete('cascade');
+            $table->foreignId('asso_don_id')->nullable()->default(null)->references('id')->on('asso_dons')->onDelete('cascade');
             $table->string('filePath');
             $table->string('extension');
             $table->string('fileName');

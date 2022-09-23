@@ -17,6 +17,7 @@ class CreateBesoinsTable extends Migration
             $table->bigIncrements('id');
             $table->foreignId('association_id')->constrained('associations')->onDelete('cascade');
             $table->string('contenu');
+            $table->string('title');
             $table->string('category');
             $table->integer('attente')->default(0);
             $table->integer('resolu')->default(0);

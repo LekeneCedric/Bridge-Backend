@@ -85,7 +85,11 @@ class besoinController extends Controller
     }
     public function index()
     {
-        return response()->json(Besoin::all(),200);
+        $besoins = Besoin::all();
+        foreach ($besoins as $besoin){
+            $besoin->association->media;
+        }
+        return response()->json($besoins,200);
     }
 
     /**
@@ -107,8 +111,8 @@ class besoinController extends Controller
     public function store(Request $request)
     {
         $validator=Validator::make($request->all(),[
-            'donateur_id'=>'required|int',
             'association_id'=>'required|int',
+            'title'=>'required|string',
             'contenu'=>'required|string',
             'category'=>'required|string',
             'attente'=>'required',
@@ -146,6 +150,7 @@ class besoinController extends Controller
                 'Besoin'=>'not Found!'
             ],200);
         }
+        $Besoin->association->media;
         return response()->json($Besoin,200);
     }
 

@@ -18,6 +18,7 @@ class media extends Model
          'donateur_id',
          'don_id',
          'mouvement_id',
+         'asso_don_id'
     ];
     protected $dates = ['created_at','updated_at'];
 
@@ -39,5 +40,8 @@ class media extends Model
 
     public function mouvement(){
         return $this->belongsTo(Mouvement::class);
+    }
+    public function asso_don(){
+        return $this->belongsTo(AssoDon::class);
     }
 }

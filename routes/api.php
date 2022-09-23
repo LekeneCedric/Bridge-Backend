@@ -92,6 +92,11 @@ Route::group(['middleware'=>['auth:sanctum']],function(){
     Route::get('/isreserv/{id_don}-{idUser}',[donController::class,'isreservForMe']);
     Route::post('/annulerReservation',[donController::class,'annulerReservation']);
     Route::post('/receptionnerDon',[donController::class,'receptionnerDon']);
+    
+    Route::post('/donsAssociation',[AssoDonController::class,'store']);
+    Route::get('/assoDon',[AssoDonController::class,'index']);
+    Route::get('/donsAssociation/{id}',[AssoDonController::class,'AssociationDons']);
+    Route::get('/DonateurAssociationDons/{id_association}/{id_donateur}',[AssoDonController::class,'']);
 
     Route::post('/appartenances',[appartenirController::class,'store']);
     Route::delete('/appartenances/{id}',[appartenirController::class,'destroy']);
