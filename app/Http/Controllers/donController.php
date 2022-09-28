@@ -163,7 +163,7 @@ class donController extends Controller
     }
     public function index()
     {
-        $dons = Don::where('disponible','<',1)->orderBy('created_at','DESC')->paginate(6);
+        $dons = Don::where('disponible','<',1)->orderBy('created_at','DESC')->paginate(12);
         foreach($dons as $don){
             $don->media = $don->media;
             $don->donateur = $don->donateur;

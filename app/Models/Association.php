@@ -46,4 +46,7 @@ class Association extends Model
     public function social(){
         return $this->hasMany(social::class);
     }
+    public function besoin(){
+        return $this->hasMany(Besoin::class);
+    }
 }

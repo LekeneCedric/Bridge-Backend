@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\AssoDon;
+use App\Models\Besoin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -56,9 +57,19 @@ class AssoDonController extends Controller
      $assoDon = AssoDon::create(
       array_merge($validator->validated())
      );
+     $besoin = Besoin::find($request->besoin_id);
+     $besoin->update([
+      'quantite_actuelle'=>$besoin->quantite_actuelle+$request->quantite,
+     ]);
+     $besoin->quantite_actuelle>=$besoin->quantite?
+     $besoin->update([
+      'resolu'=>1,
+     ]):null;
+
      return response()->json([
       'message' => 'AssoDon added successfully',
-      'Don'=>$assoDon
+      'Don'=>$assoDon,
+      'Besoin'=>$besoin
      ]);
    }
 }

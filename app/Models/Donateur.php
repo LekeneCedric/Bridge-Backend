@@ -56,4 +56,7 @@ class Donateur extends Model
     public function social(){
         return $this->hasMany(social::class);
     }
+    public function notifications(){
+        return $this->hasMany(notification::class);
+    }
 }

@@ -23,13 +23,18 @@ class associationController extends Controller
         $mouvements = $association->mouvement;
         $mediaMouv = [];
         foreach($mouvements as $mouvement){
-          array_push($mediaMouv, $mouvement->media);
+            foreach($mouvement->media as $mouvMedia){
+          array_push($mediaMouv, $mouvMedia);
+            }
         }
     // Recuperation des images des annonces 
         $annonces = $association->annonce;
         $annonceMouv=[];
         foreach($annonces as $annonce){
-            array_push($annonceMouv,$annonce->media);
+            foreach($annonce->media as $annMedia){
+                array_push($annonceMouv,$annMedia);
+            }
+            
         }
 
         $res->Mouvements = $mediaMouv;
@@ -158,6 +163,10 @@ class associationController extends Controller
         $Association->attentes = $attente;
         $Association->annonce;
         $Association->mouvement;
+        $Association->besoin;
+        foreach($Association->besoin as $besoin){
+            $besoin->AssoDon;
+        }
         $Association->recu;
         $Association->media;
         $Association->social;

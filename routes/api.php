@@ -14,6 +14,7 @@ use App\Http\Controllers\MediaController;
 use App\Http\Controllers\mediascontroller;
 use App\Http\Controllers\messageController;
 use App\Http\Controllers\mouvementController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\participerController;
 use App\Http\Controllers\recuController;
 use App\Http\Controllers\reserverController;
@@ -73,13 +74,14 @@ Route::group(['middleware'=>['auth:sanctum']],function(){
     
     Route::post('/likerAnnonce',[LikeController::class,'liker_annonce']);
     Route::delete('/dislikeAnnonce/{id_annonce}/{id_donateur}',[LikeController::class,'dislike_annonce']);
-
+    Route::get('/annoncesFavoris/{id_donateur}',[LikeController::class,'mesAnnoncesFavoris']);
 
     Route::post('/associations',[associationController::class,'store']);
     Route::put('/associations/{id}',[associationController::class,'update']);
     Route::delete('/associations/{id}',[associationController::class,'destroy']);
 
-
+    Route::get('/notifications/{donateur_id}',[NotificationController::class,'getNotificationDonateur']);
+    Route::post('/notifications',[NotificationController::class,'store']);
 
     Route::post('/recus',[recuController::class,'store']);
     Route::put('/recus/{id}',[recuController::class,'update']);
@@ -102,6 +104,7 @@ Route::group(['middleware'=>['auth:sanctum']],function(){
     Route::delete('/appartenances/{id}',[appartenirController::class,'destroy']);
 
     Route::post('/participations',[participerController::class,'store']);
+    Route::get('/mouvementsParticiper/{id_donateur}',[participerController::class,'mesMouvements']);
     Route::delete('/participations/{id}',[participerController::class,'destroy']);
     Route::get('/imParticipate/{myId}/{mouvId}',[participerController::class,'imParticipate']);
     Route::post('/annulerParticipation/{myId}/{mouvId}',[participerController::class,'annulerParticipation']);

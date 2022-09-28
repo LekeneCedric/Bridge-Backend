@@ -28,7 +28,7 @@ class annonceController extends Controller
     // }
 
     public function index($id_donateur)
-    {  $annonces = Annonce::all();
+    {  $annonces = Annonce::orderBy('created_at','DESC')->get();
         foreach($annonces as $annonce){
             $annonce->association->media;
             $annonce->media;

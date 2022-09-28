@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\appartenir;
 use App\Models\Association;
 use App\Models\Donateur;
+use App\Models\notification;
 use App\Models\participer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
@@ -64,11 +65,11 @@ class donateurController extends Controller
         }
         if($dons<=2){
             $donateur->niveau = 1;
-        $donateur->statut = 'bebe Bridger';
+        $donateur->statut = 'nourrisson Bridger';
         }
         else if($dons>2 && $dons<=10){
             $donateur->niveau = 2;
-            $donateur->statut = 'petit Bridger';
+            $donateur->statut = 'bebe Bridger';
         }
         else if($dons>10 && $dons<=25){
             $donateur->niveau = 3;
@@ -91,6 +92,8 @@ class donateurController extends Controller
             $donateur->statut = 'dieu Bridger';
         }
         $appartenances = appartenir::where('donateur_id','=',$donateur->id)->get();
+        $notifs = notification::where('donateur_id',$donateur->id)->get();
+        $nbre_notifs = count($notifs);
         $mes_appartenances = [];
         foreach($appartenances as $ap){
             array_push($mes_appartenances,$ap);
@@ -107,6 +110,7 @@ class donateurController extends Controller
         $donateur->media = $donateur->media;
         $donateur->nbdemandes = count($donateur->demande);
         $donateur->demande;
+        $donateur->nbre_notifs = $nbre_notifs;
         $response=$donateur;
         return response()->json($response);
         

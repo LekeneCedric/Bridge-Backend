@@ -44,5 +44,18 @@ class LikeController extends Controller
           'data'=>$like
         ]);
     }
+    public function mesAnnoncesFavoris($id_donateur){
+        $likes  = Like::where('donateur_id',$id_donateur)->get();
+       
+        foreach ($likes as $like){
+            $nblikes = Like::where('annonce_id',$like->annonce->id)->get();
+            $nbLike = count($nblikes);
+            $like->annonce->nbLikes = $nbLike;
+            $like->annonce->media;
+            $like->annonce->association->media;
+            
+        }
+        return response()->json($likes);
+    }
     
 }

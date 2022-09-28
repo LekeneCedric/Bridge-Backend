@@ -22,7 +22,7 @@ class besoinController extends Controller
         }
         $result = [];
         foreach($besoins as $besoin){
-            $besoin->association = $besoin->association;
+            $besoin->association->media;
           array_push($result, $besoin);
         }
         return response()->json($result);
@@ -36,7 +36,7 @@ class besoinController extends Controller
         }
         $result = [];
         foreach($besoins as $besoin){
-            $besoin->association = $besoin->association;
+            $besoin->association->media;
           array_push($result, $besoin);
         }
         return response()->json($result);
@@ -50,7 +50,7 @@ class besoinController extends Controller
         }
         $result = [];
         foreach($besoins as $besoin){
-            $besoin->association = $besoin->association;
+            $besoin->association->media;
           array_push($result, $besoin);
         }
         return response()->json($result); 
@@ -58,13 +58,11 @@ class besoinController extends Controller
     public function besoins_non_resolu_association($id){
         $besoins = Besoin::where('association_id',$id)->where('resolu','0')->get();
         if(count($besoins) < 1){
-            return response()->json([
-                'message' => 'this association dont have non resolved requiert'
-            ]);
+            return response()->json([]);
         }
         $result = [];
         foreach($besoins as $besoin){
-            $besoin->association = $besoin->association;
+            $besoin->association->media;
           array_push($result, $besoin);
         }
         return response()->json($result); 
@@ -72,20 +70,18 @@ class besoinController extends Controller
     public function besoins_resolu_association($id){
         $besoins = Besoin::where('association_id',$id)->where('resolu','1')->get();
         if(count($besoins) < 1){
-            return response()->json([
-                'message' => 'this association dont have resolved requiert'
-            ]);
+            return response()->json([]);
         }
         $result = [];
         foreach($besoins as $besoin){
-            $besoin->association = $besoin->association;
+            $besoin->association->media;
           array_push($result, $besoin);
         }
         return response()->json($result); 
     }
     public function index()
     {
-        $besoins = Besoin::all();
+        $besoins = Besoin::orderBy('created_at','DESC')->get();
         foreach ($besoins as $besoin){
             $besoin->association->media;
         }

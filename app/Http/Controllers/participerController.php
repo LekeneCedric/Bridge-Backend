@@ -35,6 +35,20 @@ class participerController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    public function mesMouvements($id){
+        $result = participer::where('donateur_id',$id)->get();
+        foreach($result as $res){
+            $res->mouvement->media;
+            $res->mouvement->association->media;
+            $donateurs=[];
+        $participants = participer::where('mouvement_id',$res->mouvement->id)->get();
+        foreach($participants as $participant){
+            array_push($donateurs,$participant->donateur);
+        }
+        $res->mouvement->nbparticipants = count($donateurs);
+        }
+        return response()->json($result);
+    }
     public function imParticipate($myId,$mouvid){
         $result = participer::where('mouvement_id',$mouvid)->where('donateur_id',$myId)->get();
         if(count($result)<1){
