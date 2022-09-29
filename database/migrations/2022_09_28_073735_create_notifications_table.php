@@ -17,7 +17,7 @@ class CreateNotificationsTable extends Migration
             $table->bigIncrements('id');
             $table->foreignId('donateur_id')->nullable()->default(null)->references('id')->on('donateurs')->onDelete('cascade');
             $table->string('title');
-            $table->string('message');
+            $table->text('message');
             $table->timestamps();
         });
     }
