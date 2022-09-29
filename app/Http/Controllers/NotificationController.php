@@ -25,7 +25,7 @@ class NotificationController extends Controller
         ],200);
     }
     public function getNotificationDonateur($donateur_id){
-         $notifications = notification::where('donateur_id',$donateur_id)->get();
+         $notifications = notification::where('donateur_id',$donateur_id)->orderBy('created_at','DESC')->get();
          return response()->json($notifications,200);
     } 
 }
