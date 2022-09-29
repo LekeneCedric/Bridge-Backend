@@ -81,7 +81,7 @@ class besoinController extends Controller
     }
     public function index()
     {
-        $besoins = Besoin::orderBy('created_at','DESC')->get();
+        $besoins = Besoin::where('quantite_actuelle','<','quantite')->orderBy('created_at','DESC')->get();
         foreach ($besoins as $besoin){
             $besoin->association->media;
         }
