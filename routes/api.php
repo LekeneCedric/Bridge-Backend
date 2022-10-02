@@ -82,7 +82,7 @@ Route::group(['middleware'=>['auth:sanctum']],function(){
 
     Route::get('/notifications/{donateur_id}',[NotificationController::class,'getNotificationDonateur']);
     Route::post('/notifications',[NotificationController::class,'store']);
-
+    Route::post('/notificationVue/{donateur_id}/{notification_id}',[NotificationController::class,'vue']);
     Route::post('/recus',[recuController::class,'store']);
     Route::put('/recus/{id}',[recuController::class,'update']);
     Route::delete('/recus/{id}',[recuController::class,'destroy']);

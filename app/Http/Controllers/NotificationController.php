@@ -28,4 +28,10 @@ class NotificationController extends Controller
          $notifications = notification::where('donateur_id',$donateur_id)->orderBy('created_at','DESC')->get();
          return response()->json($notifications,200);
     } 
+    public function vue($donateur_id,$notification_id){
+        $notification = notification::where('donateur_id',$donateur_id)->where('id',$notification_id)->update([
+            'vu'=>true
+        ]);
+        return response()->json($notification);
+    }
 }

@@ -12,7 +12,8 @@ class notification extends Model
         'id',
         'title',
         'donateur_id',
-        'message'
+        'message',
+        'vu'
     ];
 
     protected $dates = ['created_at','updated_at'];
